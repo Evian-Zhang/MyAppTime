@@ -24,6 +24,7 @@
 		5631388622492E7E000AFFFD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5631388722492E7E000AFFFD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5631388922492E7E000AFFFD /* MyAppTime.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyAppTime.entitlements; sourceTree = "<group>"; };
+		5631388F22492EA6000AFFFD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +65,7 @@
 				5631388722492E7E000AFFFD /* main.m */,
 				5631388922492E7E000AFFFD /* MyAppTime.entitlements */,
 				5631387E22492E7B000AFFFD /* MyAppTime.xcdatamodeld */,
+				5631388F22492EA6000AFFFD /* README.md */,
 			);
 			path = MyAppTime;
 			sourceTree = "<group>";
