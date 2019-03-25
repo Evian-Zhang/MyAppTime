@@ -41,6 +41,7 @@
 		5631386F22492E7B000AFFFD = {
 			isa = PBXGroup;
 			children = (
+				5631388F22492EA6000AFFFD /* README.md */,
 				5631387A22492E7B000AFFFD /* MyAppTime */,
 				5631387922492E7B000AFFFD /* Products */,
 			);
@@ -65,7 +66,6 @@
 				5631388722492E7E000AFFFD /* main.m */,
 				5631388922492E7E000AFFFD /* MyAppTime.entitlements */,
 				5631387E22492E7B000AFFFD /* MyAppTime.xcdatamodeld */,
-				5631388F22492EA6000AFFFD /* README.md */,
 			);
 			path = MyAppTime;
 			sourceTree = "<group>";
