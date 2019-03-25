@@ -12,6 +12,7 @@
 		5631388222492E7E000AFFFD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5631388122492E7E000AFFFD /* Assets.xcassets */; };
 		5631388522492E7E000AFFFD /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5631388322492E7E000AFFFD /* MainMenu.xib */; };
 		5631388822492E7E000AFFFD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5631388722492E7E000AFFFD /* main.m */; };
+		5631389222492FB2000AFFFD /* ATDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5631389122492FB2000AFFFD /* ATDataModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,8 @@
 		5631388722492E7E000AFFFD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5631388922492E7E000AFFFD /* MyAppTime.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyAppTime.entitlements; sourceTree = "<group>"; };
 		5631388F22492EA6000AFFFD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		5631389022492FB2000AFFFD /* ATDataModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ATDataModel.h; sourceTree = "<group>"; };
+		5631389122492FB2000AFFFD /* ATDataModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ATDataModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +63,8 @@
 			children = (
 				5631387B22492E7B000AFFFD /* AppDelegate.h */,
 				5631387C22492E7B000AFFFD /* AppDelegate.m */,
+				5631389022492FB2000AFFFD /* ATDataModel.h */,
+				5631389122492FB2000AFFFD /* ATDataModel.m */,
 				5631388122492E7E000AFFFD /* Assets.xcassets */,
 				5631388322492E7E000AFFFD /* MainMenu.xib */,
 				5631388622492E7E000AFFFD /* Info.plist */,
@@ -139,6 +144,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5631389222492FB2000AFFFD /* ATDataModel.m in Sources */,
 				5631388022492E7B000AFFFD /* MyAppTime.xcdatamodeld in Sources */,
 				5631388822492E7E000AFFFD /* main.m in Sources */,
 				5631387D22492E7B000AFFFD /* AppDelegate.m in Sources */,

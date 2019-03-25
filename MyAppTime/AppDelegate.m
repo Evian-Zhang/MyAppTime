@@ -17,8 +17,15 @@
 
 @implementation AppDelegate
 
+@synthesize dataModel = _dataModel;
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
+    self.dataModel = [[ATDataModel alloc] init];
+    NSArray<NSRunningApplication *> *runningApplications = self.dataModel.visibleApplications;
+    for (NSRunningApplication *runningApplication in runningApplications) {
+        NSLog(@"%@", runningApplication.localizedName);
+    }
 }
 
 
