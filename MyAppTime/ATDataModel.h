@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <Cocoa/Cocoa.h>
 
+#import "AIRecordingData+CoreDataClass.h"
+#import "AIRecordingData+CoreDataProperties.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ATDataModel : NSObject
@@ -18,7 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSMutableArray<NSString *> *bundleIDs;
 @property (nonatomic) NSMutableDictionary<NSString *, NSNumber *> *timeRecordings;
 
-- (void)addTimer;
+- (void)addRecordingTimer;
+- (void)addWriteBackTimer;
 
 @end
 
