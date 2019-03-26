@@ -13,7 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ATDataModel : NSObject
 
-@property (nonatomic) NSMutableArray<NSRunningApplication *> *visibleApplications;
+@property (nonatomic, readonly) NSMutableArray<NSString *> *bundleIDs;
+
+- (void)addTimer;
 
 @end
 
