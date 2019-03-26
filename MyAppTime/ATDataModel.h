@@ -13,7 +13,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ATDataModel : NSObject
 
+@property NSPersistentContainer *persistentContainer;
+
 @property (nonatomic, readonly) NSMutableArray<NSString *> *bundleIDs;
+@property (nonatomic) NSMutableDictionary<NSString *, NSNumber *> *timeRecordings;
 
 - (void)addTimer;
 

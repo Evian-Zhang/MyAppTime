@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		563110D2224A29FA0071EFD9 /* ATMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 563110D0224A29FA0071EFD9 /* ATMainWindowController.m */; };
+		563110D3224A29FA0071EFD9 /* ATMainWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 563110D1224A29FA0071EFD9 /* ATMainWindowController.xib */; };
 		5631387D22492E7B000AFFFD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5631387C22492E7B000AFFFD /* AppDelegate.m */; };
 		5631388022492E7B000AFFFD /* MyAppTime.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5631387E22492E7B000AFFFD /* MyAppTime.xcdatamodeld */; };
 		5631388222492E7E000AFFFD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5631388122492E7E000AFFFD /* Assets.xcassets */; };
@@ -16,6 +18,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		563110CF224A29FA0071EFD9 /* ATMainWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ATMainWindowController.h; sourceTree = "<group>"; };
+		563110D0224A29FA0071EFD9 /* ATMainWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ATMainWindowController.m; sourceTree = "<group>"; };
+		563110D1224A29FA0071EFD9 /* ATMainWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ATMainWindowController.xib; sourceTree = "<group>"; };
 		5631387822492E7B000AFFFD /* MyAppTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyAppTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5631387B22492E7B000AFFFD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		5631387C22492E7B000AFFFD /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -66,6 +71,9 @@
 				5631387C22492E7B000AFFFD /* AppDelegate.m */,
 				5631389022492FB2000AFFFD /* ATDataModel.h */,
 				5631389122492FB2000AFFFD /* ATDataModel.m */,
+				563110CF224A29FA0071EFD9 /* ATMainWindowController.h */,
+				563110D0224A29FA0071EFD9 /* ATMainWindowController.m */,
+				563110D1224A29FA0071EFD9 /* ATMainWindowController.xib */,
 				5631388122492E7E000AFFFD /* Assets.xcassets */,
 				5631388322492E7E000AFFFD /* MainMenu.xib */,
 				5631388622492E7E000AFFFD /* Info.plist */,
@@ -140,6 +148,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5631388222492E7E000AFFFD /* Assets.xcassets in Resources */,
+				563110D3224A29FA0071EFD9 /* ATMainWindowController.xib in Resources */,
 				5631388522492E7E000AFFFD /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -152,6 +161,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5631389222492FB2000AFFFD /* ATDataModel.m in Sources */,
+				563110D2224A29FA0071EFD9 /* ATMainWindowController.m in Sources */,
 				5631388022492E7B000AFFFD /* MyAppTime.xcdatamodeld in Sources */,
 				5631388822492E7E000AFFFD /* main.m in Sources */,
 				5631387D22492E7B000AFFFD /* AppDelegate.m in Sources */,

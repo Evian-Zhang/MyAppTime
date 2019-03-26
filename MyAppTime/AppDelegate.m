@@ -10,19 +10,19 @@
 
 @interface AppDelegate ()
 
-@property (weak) IBOutlet NSWindow *window;
 - (IBAction)saveAction:(id)sender;
 
 @end
 
 @implementation AppDelegate
 
-@synthesize dataModel = _dataModel;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
-    self.dataModel = [[ATDataModel alloc] init];
-    [self.dataModel addTimer];
+    self.mainWindowController = [[ATMainWindowController alloc] initWithWindowNibName:@"ATMainWindowController"];
+    self.mainWindowController.dataModel.persistentContainer = self.persistentContainer;
+    [self.mainWindowController.window center];
+    [self.mainWindowController.window orderFront:nil];
 }
 
 

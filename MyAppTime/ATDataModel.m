@@ -11,14 +11,18 @@
 @implementation ATDataModel {
     NSWorkspace *_sharedWorkspace;
     NSFileManager *_defaultManager;
+    NSTimeInterval _refreshInterval;
 }
 
 @synthesize bundleIDs = _bundleIDs;
+@synthesize timeRecordings = _timeRecordings;
 
 - (instancetype)init {
     if (self = [super init]) {
         _sharedWorkspace = [NSWorkspace sharedWorkspace];
         _defaultManager = [NSFileManager defaultManager];
+        self.timeRecordings = [NSMutableDictionary<NSString *, NSNumber *> dictionary];
+        _refreshInterval = 1.0;
     }
     return self;
 }
@@ -44,13 +48,12 @@
 }
 
 - (void)addTimer {
-    NSTimer *timer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(displayApps) userInfo:nil repeats:YES];
+    NSTimer *timer = [NSTimer timerWithTimeInterval:_refreshInterval target:self selector:@selector(refreshRecordings) userInfo:nil repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
 }
 
-- (void)displayApps {
+- (void)refreshRecordings {
     NSMutableArray<NSString *> *bundleIDs = self.bundleIDs;
-    NSLog(@"\n\n\nTrack once!%@", bundleIDs);
     for (NSString *bundleID in bundleIDs) {
         NSBundle *bundle = [NSBundle bundleWithURL:[_sharedWorkspace URLForApplicationWithBundleIdentifier:bundleID]];
         NSString *localizedName = bundle.localizedInfoDictionary[@"CFBundleDisplayName"];
@@ -58,7 +61,14 @@
             localizedName = bundle.infoDictionary[@"CFBundleName"];
         }
         NSLog(@"%@", localizedName);
+        NSNumber *duration = [self.timeRecordings objectForKey:bundleID];
+        if (!duration) {
+            duration = [NSNumber numberWithDouble:0.0];
+        }
+        duration = [NSNumber numberWithDouble:duration.doubleValue + _refreshInterval];
+        [self.timeRecordings setObject:duration forKey:bundleID];
     }
+    NSLog(@"%@", self.timeRecordings);
 }
 
 @end
