@@ -37,6 +37,11 @@
     NSMutableArray<NSString *> *bundleIDs = [NSMutableArray<NSString *> array];
     
     NSMutableArray *windowDicts = (__bridge NSMutableArray *)CGWindowListCopyWindowInfo(kCGWindowListOptionOnScreenOnly | kCGWindowListExcludeDesktopElements, kCGNullWindowID);
+    
+    if (![bundleIDs containsObject:AITotalTime]) {
+        [bundleIDs addObject:AITotalTime];
+    }
+    
     for (NSDictionary *windowDict in windowDicts) {
         NSString *windowLayer = (NSString *)[windowDict objectForKey:@"kCGWindowLayer"];
         if (!windowLayer.intValue) {
@@ -79,8 +84,13 @@
     _isRecording = YES;
     NSMutableArray<NSString *> *bundleIDs = self.bundleIDs;
     for (NSString *bundleID in bundleIDs) {
+        NSString *localizedName;
+        if ([bundleID isEqualToString:AITotalTime]) {
+            localizedName = NSLocalizedString(@"Total", @"Name of AITotalTime");
+            continue;
+        }
         NSBundle *bundle = [NSBundle bundleWithURL:[_sharedWorkspace URLForApplicationWithBundleIdentifier:bundleID]];
-        NSString *localizedName = bundle.localizedInfoDictionary[@"CFBundleDisplayName"];
+        localizedName = bundle.localizedInfoDictionary[@"CFBundleDisplayName"];
         if (!localizedName) {
             localizedName = bundle.infoDictionary[@"CFBundleName"];
         }

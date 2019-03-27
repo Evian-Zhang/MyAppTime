@@ -12,6 +12,8 @@
 #import "AIRecordingData+CoreDataClass.h"
 #import "AIRecordingData+CoreDataProperties.h"
 
+#define AITotalTime @"AITotalTime"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ATDataModel : NSObject
@@ -20,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readonly) NSMutableArray<NSString *> *bundleIDs;
 @property (nonatomic) NSMutableDictionary<NSString *, NSNumber *> *timeRecordings;
+@property (nonatomic, readonly) NSArray<AIRecordingData *> *requiredRecordings;
 
 @property (nonatomic, strong) dispatch_queue_t dataModelQueue;
 @property (nonatomic, strong) dispatch_source_t refreshTimer;
