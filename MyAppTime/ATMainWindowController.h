@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 #import "ATDataModel.h"
+#import "ATBarChartView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

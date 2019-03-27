@@ -15,6 +15,7 @@
 		5631388522492E7E000AFFFD /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5631388322492E7E000AFFFD /* MainMenu.xib */; };
 		5631388822492E7E000AFFFD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5631388722492E7E000AFFFD /* main.m */; };
 		5631389222492FB2000AFFFD /* ATDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5631389122492FB2000AFFFD /* ATDataModel.m */; };
+		56609E01224BD1F40065E4D7 /* ATBarChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 56609E00224BD1F40065E4D7 /* ATBarChartView.m */; };
 		56E89D0E224A4EC4006D3931 /* AIRecordingData+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 56E89D0C224A4EC4006D3931 /* AIRecordingData+CoreDataClass.m */; };
 		56E89D0F224A4EC4006D3931 /* AIRecordingData+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 56E89D0D224A4EC4006D3931 /* AIRecordingData+CoreDataProperties.m */; };
 /* End PBXBuildFile section */
@@ -35,6 +36,10 @@
 		5631388F22492EA6000AFFFD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		5631389022492FB2000AFFFD /* ATDataModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ATDataModel.h; sourceTree = "<group>"; };
 		5631389122492FB2000AFFFD /* ATDataModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ATDataModel.m; sourceTree = "<group>"; };
+		56609DFF224BD1F40065E4D7 /* ATBarChartView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ATBarChartView.h; sourceTree = "<group>"; };
+		56609E00224BD1F40065E4D7 /* ATBarChartView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ATBarChartView.m; sourceTree = "<group>"; };
+		56609E03224BDADB0065E4D7 /* ATBarChartViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ATBarChartViewDelegate.h; sourceTree = "<group>"; };
+		56609E04224BDB080065E4D7 /* ATBarChartViewDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ATBarChartViewDataSource.h; sourceTree = "<group>"; };
 		56CB693C2249ED6C002B697F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/MainMenu.strings"; sourceTree = "<group>"; };
 		56E89D0A224A4EC4006D3931 /* AIRecordingData+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AIRecordingData+CoreDataProperties.h"; sourceTree = "<group>"; };
 		56E89D0B224A4EC4006D3931 /* AIRecordingData+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AIRecordingData+CoreDataClass.h"; sourceTree = "<group>"; };
@@ -84,6 +89,10 @@
 				563110CF224A29FA0071EFD9 /* ATMainWindowController.h */,
 				563110D0224A29FA0071EFD9 /* ATMainWindowController.m */,
 				563110D1224A29FA0071EFD9 /* ATMainWindowController.xib */,
+				56609E03224BDADB0065E4D7 /* ATBarChartViewDelegate.h */,
+				56609E04224BDB080065E4D7 /* ATBarChartViewDataSource.h */,
+				56609DFF224BD1F40065E4D7 /* ATBarChartView.h */,
+				56609E00224BD1F40065E4D7 /* ATBarChartView.m */,
 				5631388122492E7E000AFFFD /* Assets.xcassets */,
 				5631388322492E7E000AFFFD /* MainMenu.xib */,
 				5631388622492E7E000AFFFD /* Info.plist */,
@@ -177,6 +186,7 @@
 				56E89D0E224A4EC4006D3931 /* AIRecordingData+CoreDataClass.m in Sources */,
 				5631388822492E7E000AFFFD /* main.m in Sources */,
 				5631387D22492E7B000AFFFD /* AppDelegate.m in Sources */,
+				56609E01224BD1F40065E4D7 /* ATBarChartView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
