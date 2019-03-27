@@ -13,6 +13,8 @@
     NSFileManager *_defaultManager;
     NSTimeInterval _refreshInterval;
     NSTimeInterval _writeBackInterval;
+    BOOL _isWritingBack;
+    BOOL _isRecording;
 }
 
 - (instancetype)init {
@@ -22,6 +24,8 @@
         self.timeRecordings = [NSMutableDictionary<NSString *, NSNumber *> dictionary];
         _refreshInterval = 1.0;
         _writeBackInterval = 10.0;
+        _isWritingBack = NO;
+        _isRecording = NO;
     }
     return self;
 }
@@ -46,14 +50,30 @@
     return bundleIDs;
 }
 
-- (void)addRecordingTimer {
-    NSTimer *timer = [NSTimer timerWithTimeInterval:_refreshInterval target:self selector:@selector(refreshRecordings) userInfo:nil repeats:YES];
-    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
-    NSTimer *timer2 = [NSTimer timerWithTimeInterval:_writeBackInterval target:self selector:@selector(writeBack) userInfo:nil repeats:YES];
-    [[NSRunLoop currentRunLoop] addTimer:timer2 forMode:NSDefaultRunLoopMode];
+- (void)addTimer {
+    self.dataModelQueue = dispatch_queue_create("queue", DISPATCH_QUEUE_CONCURRENT);
+    
+    self.refreshTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, self.dataModelQueue);
+    dispatch_source_set_timer(self.refreshTimer, dispatch_walltime(NULL, 0), _refreshInterval * NSEC_PER_SEC, 0.1 * NSEC_PER_SEC);
+    dispatch_source_set_event_handler(self.refreshTimer, ^{
+        [self refreshRecordings];
+    });
+    
+    self.writeTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, self.dataModelQueue);
+    dispatch_source_set_timer(self.writeTimer, dispatch_walltime(NULL, 0), _writeBackInterval * NSEC_PER_SEC, 0.1 * NSEC_PER_SEC);
+    dispatch_source_set_event_handler(self.writeTimer, ^{
+        [self writeBack];
+    });
+    
+    dispatch_resume(self.refreshTimer);
+    dispatch_resume(self.writeTimer);
 }
 
 - (void)refreshRecordings {
+    if (_isRecording) {
+        return;
+    }
+    _isRecording = YES;
     NSMutableArray<NSString *> *bundleIDs = self.bundleIDs;
     for (NSString *bundleID in bundleIDs) {
         NSBundle *bundle = [NSBundle bundleWithURL:[_sharedWorkspace URLForApplicationWithBundleIdentifier:bundleID]];
@@ -70,27 +90,14 @@
         [self.timeRecordings setObject:duration forKey:bundleID];
     }
     NSLog(@"%@", self.timeRecordings);
-}
-
-- (void)addWriteBackTimer {
-//    NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(writeBackTimerHandler) object:nil];
-//    [thread start];
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
-    dispatch_source_set_timer(timer, DISPATCH_TIME_NOW, 60.0 * NSEC_PER_SEC, 0.1 * NSEC_PER_SEC);
-    __weak typeof(self) weakSelf = self;
-    dispatch_source_set_event_handler(timer, ^{
-        [weakSelf writeBack];
-    });
-    dispatch_resume(timer);
-}
-
-- (void)writeBackTimerHandler {
-    NSTimer *timer = [NSTimer timerWithTimeInterval:_writeBackInterval target:self selector:@selector(writeBack) userInfo:nil repeats:YES];
-    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
+    _isRecording = NO;
 }
 
 - (void)writeBack {
+    if (_isWritingBack) {
+        return;
+    }
+    _isWritingBack = YES;
     NSArray<NSString *> *bundleIDs = [self.bundleIDs copy];
     NSDate *now = [NSDate date];
     NSCalendar *calendar = [NSCalendar currentCalendar];
@@ -121,6 +128,7 @@
     if (![self.persistentContainer.viewContext save:&error]) {
         NSLog(@"%@", error);
     }
+    _isWritingBack = NO;
 }
 
 @end

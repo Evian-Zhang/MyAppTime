@@ -16,9 +16,7 @@
 
 - (instancetype)initWithWindowNibName:(NSNibName)windowNibName {
     if (self = [super initWithWindowNibName:windowNibName]) {
-        self.dataModel = [[ATDataModel alloc] init];
-        [self.dataModel addRecordingTimer];
-//        [self.dataModel addWriteBackTimer];
+        
     }
     return self;
 }

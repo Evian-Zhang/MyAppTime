@@ -18,16 +18,19 @@
 
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    // Insert code here to initialize your application
+    self.dataModel = [[ATDataModel alloc] init];
+    self.dataModel.persistentContainer = self.persistentContainer;
+    [self.dataModel addTimer];
+    
     self.mainWindowController = [[ATMainWindowController alloc] initWithWindowNibName:@"ATMainWindowController"];
-    self.mainWindowController.dataModel.persistentContainer = self.persistentContainer;
+    self.mainWindowController.dataModel = self.dataModel;
     [self.mainWindowController.window center];
     [self.mainWindowController.window orderFront:nil];
 }
 
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-    // Insert code here to tear down your application
+    [self.dataModel writeBack];
 }
 
 
