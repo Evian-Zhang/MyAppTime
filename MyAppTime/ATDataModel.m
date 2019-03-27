@@ -11,6 +11,7 @@
 @implementation ATDataModel {
     NSWorkspace *_sharedWorkspace;
     NSFileManager *_defaultManager;
+    NSNotificationCenter *_defaultCenter;
     NSTimeInterval _refreshInterval;
     NSTimeInterval _writeBackInterval;
     BOOL _isWritingBack;
@@ -26,6 +27,8 @@
         _writeBackInterval = 10.0;
         _isWritingBack = NO;
         _isRecording = NO;
+        _defaultCenter = [NSNotificationCenter defaultCenter];
+        [_defaultCenter addObserver:self selector:@selector(handleCalendarDayChangeNotification) name:NSCalendarDayChangedNotification object:nil];
     }
     return self;
 }
@@ -129,6 +132,11 @@
         NSLog(@"%@", error);
     }
     _isWritingBack = NO;
+}
+
+- (void)handleCalendarDayChangeNotification {
+    [self.bundleIDs removeAllObjects];
+    [self.timeRecordings removeAllObjects];
 }
 
 @end
