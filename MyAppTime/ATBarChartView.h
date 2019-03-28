@@ -12,6 +12,8 @@
 #import "ATBarChartViewDelegate.h"
 #import "ATBarChartViewDataSource.h"
 
+#import "NSBezierPath+BezierPathQuartzUtilities.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ATBarChartView : NSView

@@ -33,6 +33,37 @@
     // Drawing code here.
 }
 
+- (void)layout {
+    [super layout];
+    [_scrollView setFrame:NSMakeRect(0, 0, self.frame.size.width, self.frame.size.height)];
+}
+
+- (instancetype)init {
+    if (self = [super init]) {
+        [self setUpView];
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)decoder {
+    if (self = [super initWithCoder:decoder]) {
+        [self setUpView];
+    }
+    return self;
+}
+
+- (instancetype)initWithFrame:(NSRect)frameRect {
+    if (self = [super initWithFrame:frameRect]) {
+        [self setUpView];
+    }
+    return self;
+}
+
+- (void)setUpView {
+    [_scrollView.layer addSublayer:_mainLayer];
+    [self addSubview:_scrollView];
+}
+
 - (void)buildFrame {
     for (CALayer *sublayer in _mainLayer.sublayers) {
         [sublayer removeFromSuperlayer];
@@ -46,6 +77,7 @@
         [_scrollView.documentView setFrame:NSMakeRect(0, 0, scrollViewWidth, scrollViewHeight)];
         [_mainLayer setFrame:CGRectMake(0, 0, scrollViewWidth, scrollViewHeight)];
         
+        [self drawBottomLineWithXPos:0.0 yPos:0.0];
         
         for (NSUInteger i = 0; i < numberOfBars; i++) {
             [self drawEntryAtIndex:i];
@@ -80,6 +112,16 @@
 - (CGFloat)translateToYPosFromHeightValue:(float)height {
     CGFloat yPos = 0.0;
     return yPos;
+}
+
+- (void)drawBottomLineWithXPos:(CGFloat)xPos yPos:(CGFloat)yPos {
+    NSBezierPath *path = [NSBezierPath bezierPath];
+    [path moveToPoint:NSMakePoint(xPos, yPos)];
+    [path lineToPoint:CGPointMake(_scrollView.frame.size.width, yPos)];
+    CAShapeLayer *lineLayer = [CAShapeLayer layer];
+    lineLayer.path = path.quartzPath;
+    lineLayer.lineWidth = 0.5;
+    [self.layer insertSublayer:lineLayer atIndex:0];
 }
 
 @end
