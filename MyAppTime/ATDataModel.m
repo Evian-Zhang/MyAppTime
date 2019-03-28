@@ -145,8 +145,10 @@
 }
 
 - (void)handleCalendarDayChangeNotification {
+    dispatch_suspend(self.dataModelQueue);
     [self.bundleIDs removeAllObjects];
     [self.timeRecordings removeAllObjects];
+    dispatch_resume(self.dataModelQueue);
 }
 
 @end

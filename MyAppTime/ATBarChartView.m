@@ -22,9 +22,6 @@
     _space = 20.0;
     _bottomSpace = 40.0;
     _topSpace = 40.0;
-    _mainLayer = [CALayer layer];
-//    _scrollView = [NSScrollView ]
-    _scrollView = [[NSScrollView alloc] init];
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
@@ -60,8 +57,33 @@
 }
 
 - (void)setUpView {
+    _mainLayer = [CALayer layer];
+    _scrollView = [[NSScrollView alloc] init];
     [_scrollView.layer addSublayer:_mainLayer];
     [self addSubview:_scrollView];
+}
+
+- (void)setDataSource:(id<ATBarChartViewDataSource>)dataSource {
+    _dataSource = dataSource;
+    
+    for (CALayer *sublayer in _mainLayer.sublayers) {
+        [sublayer removeFromSuperlayer];
+    }
+    
+    NSUInteger numberOfBars = [_dataSource numberOfBarsInBarChartView:self];
+    
+    if (numberOfBars) {
+        CGFloat scrollViewWidth = (_barWidth + _space) * (CGFloat)numberOfBars;
+        CGFloat scrollViewHeight = self.frame.size.height;
+        [_scrollView.documentView setFrame:NSMakeRect(0, 0, scrollViewWidth, scrollViewHeight)];
+        [_mainLayer setFrame:CGRectMake(0, 0, scrollViewWidth, scrollViewHeight)];
+        
+        [self drawBottomLineWithXPos:0.0 yPos:0.0];
+        
+        for (NSUInteger i = 0; i < numberOfBars; i++) {
+            [self drawEntryAtIndex:i];
+        }
+    }
 }
 
 - (void)buildFrame {
@@ -87,11 +109,11 @@
 
 - (void)drawEntryAtIndex:(NSUInteger)index {
     CGFloat xPos = _space + (CGFloat)index * (_barWidth + _space);
-    CGFloat yPos = [self translateToYPosFromHeightValue:[self.dataSource barChartView:self heightForBarAtIndex:index]];
+    CGFloat yPos = [self translateToYPosFromHeightValue:[_dataSource barChartView:self heightForBarAtIndex:index]];
     
-    [self drawBarWithXPos:xPos yPos:yPos color:[self.dataSource barChartView:self colorForBarAtIndex:index]];
+    [self drawBarWithXPos:xPos yPos:yPos color:[_dataSource barChartView:self colorForBarAtIndex:index]];
     
-    [self drawTitleWithXPos:(xPos - _space / 2) yPos:(yPos - 30) title:[self.dataSource barChartView:self titleForBarAtIndex:index]];
+    [self drawTitleWithXPos:(xPos - _space / 2) yPos:(yPos - 30) title:[_dataSource barChartView:self titleForBarAtIndex:index]];
 }
 
 - (void)drawBarWithXPos:(CGFloat)xPos yPos:(CGFloat)yPos color:(NSColor *)color {
