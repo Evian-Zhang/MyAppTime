@@ -12,7 +12,7 @@
 #import "AIRecordingData+CoreDataClass.h"
 #import "AIRecordingData+CoreDataProperties.h"
 
-#define AITotalTime @"AITotalTime"
+#define ATTotalTime @"ATTotalTime"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -30,6 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)addTimer;
 - (void)writeBack;
+- (NSArray<AIRecordingData *> *)recordingDatasForBundleID:(NSString *)bundleID forDate:(NSDate *)date;
 
 @end
 

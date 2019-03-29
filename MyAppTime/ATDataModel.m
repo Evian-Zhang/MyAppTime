@@ -38,8 +38,8 @@
     
     NSMutableArray *windowDicts = (__bridge NSMutableArray *)CGWindowListCopyWindowInfo(kCGWindowListOptionOnScreenOnly | kCGWindowListExcludeDesktopElements, kCGNullWindowID);
     
-    if (![bundleIDs containsObject:AITotalTime]) {
-        [bundleIDs addObject:AITotalTime];
+    if (![bundleIDs containsObject:ATTotalTime]) {
+        [bundleIDs addObject:ATTotalTime];
     }
     
     for (NSDictionary *windowDict in windowDicts) {
@@ -83,16 +83,19 @@
     }
     _isRecording = YES;
     NSMutableArray<NSString *> *bundleIDs = self.bundleIDs;
+    if (![bundleIDs containsObject:ATTotalTime]) {
+        [bundleIDs addObject:ATTotalTime];
+    }
     for (NSString *bundleID in bundleIDs) {
         NSString *localizedName;
-        if ([bundleID isEqualToString:AITotalTime]) {
-            localizedName = NSLocalizedString(@"Total", @"Name of AITotalTime");
-            continue;
-        }
-        NSBundle *bundle = [NSBundle bundleWithURL:[_sharedWorkspace URLForApplicationWithBundleIdentifier:bundleID]];
-        localizedName = bundle.localizedInfoDictionary[@"CFBundleDisplayName"];
-        if (!localizedName) {
-            localizedName = bundle.infoDictionary[@"CFBundleName"];
+        if ([bundleID isEqualToString:ATTotalTime]) {
+            localizedName = NSLocalizedString(@"Total", @"Name of ATTotalTime");
+        } else {
+            NSBundle *bundle = [NSBundle bundleWithURL:[_sharedWorkspace URLForApplicationWithBundleIdentifier:bundleID]];
+            localizedName = bundle.localizedInfoDictionary[@"CFBundleDisplayName"];
+            if (!localizedName) {
+                localizedName = bundle.infoDictionary[@"CFBundleName"];
+            }
         }
         NSLog(@"%@", localizedName);
         NSNumber *duration = [self.timeRecordings objectForKey:bundleID];
@@ -110,38 +113,52 @@
     if (_isWritingBack) {
         return;
     }
+    dispatch_suspend(self.refreshTimer);
     _isWritingBack = YES;
     NSArray<NSString *> *bundleIDs = [self.bundleIDs copy];
     NSDate *now = [NSDate date];
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDate *today = [calendar startOfDayForDate:now];
-    NSDate *tomorrow = [calendar dateByAddingUnit:NSCalendarUnitDay value:1 toDate:today options:NSCalendarWrapComponents];
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"AIRecordingData"];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"date >= %@ AND date < %@", today, tomorrow];
-    request.predicate = predicate;
-    NSArray<AIRecordingData *> *todayRecordings = [self.persistentContainer.viewContext executeFetchRequest:request error:nil];
+//    NSCalendar *calendar = [NSCalendar currentCalendar];
+//    NSDate *today = [calendar startOfDayForDate:now];
+//    NSDate *tomorrow = [calendar dateByAddingUnit:NSCalendarUnitDay value:1 toDate:today options:NSCalendarWrapComponents];
+//    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"AIRecordingData"];
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"date >= %@ AND date < %@", today, tomorrow];
+//    request.predicate = predicate;
+//    NSArray<AIRecordingData *> *todayRecordings = [self.persistentContainer.viewContext executeFetchRequest:request error:nil];
+//    for (NSString *bundleID in bundleIDs) {
+//        BOOL hasRecord = NO;
+//        for (AIRecordingData *recordingData in todayRecordings) {
+//            if ([recordingData.bundleID isEqualToString:bundleID]) {
+//                recordingData.date = now;
+//                recordingData.duration = [self.timeRecordings objectForKey:bundleID].doubleValue;
+//                hasRecord = YES;
+//                break;
+//            }
+//        }
+//        if (!hasRecord) {
+//            AIRecordingData *recordingData = [NSEntityDescription  insertNewObjectForEntityForName:@"AIRecordingData"  inManagedObjectContext:self.persistentContainer.viewContext];
+//            recordingData.bundleID = bundleID;
+//            recordingData.date = now;
+//            recordingData.duration = [self.timeRecordings objectForKey:bundleID].doubleValue;
+//        }
+//    }
+//    NSError *error;
+//    if (![self.persistentContainer.viewContext save:&error]) {
+//        NSLog(@"%@", error);
+//    }
     for (NSString *bundleID in bundleIDs) {
-        BOOL hasRecord = NO;
-        for (AIRecordingData *recordingData in todayRecordings) {
-            if ([recordingData.bundleID isEqualToString:bundleID]) {
-                recordingData.date = now;
-                recordingData.duration = [self.timeRecordings objectForKey:bundleID].doubleValue;
-                hasRecord = YES;
-                break;
-            }
-        }
-        if (!hasRecord) {
-            AIRecordingData *recordingData = [NSEntityDescription  insertNewObjectForEntityForName:@"AIRecordingData"  inManagedObjectContext:self.persistentContainer.viewContext];
-            recordingData.bundleID = bundleID;
-            recordingData.date = now;
-            recordingData.duration = [self.timeRecordings objectForKey:bundleID].doubleValue;
-        }
+        AIRecordingData *recordingData = [NSEntityDescription insertNewObjectForEntityForName:@"AIRecordingData" inManagedObjectContext:self.persistentContainer.viewContext];
+        recordingData.bundleID = bundleID;
+        recordingData.date = now;
+        recordingData.duration = [self.timeRecordings objectForKey:bundleID].doubleValue;
     }
     NSError *error;
     if (![self.persistentContainer.viewContext save:&error]) {
         NSLog(@"%@", error);
     }
+    [self.bundleIDs removeAllObjects];
+    [self.timeRecordings removeAllObjects];
     _isWritingBack = NO;
+    dispatch_resume(self.refreshTimer);
 }
 
 - (void)handleCalendarDayChangeNotification {
@@ -149,6 +166,17 @@
     [self.bundleIDs removeAllObjects];
     [self.timeRecordings removeAllObjects];
     dispatch_resume(self.dataModelQueue);
+}
+
+- (NSArray<AIRecordingData *> *)recordingDatasForBundleID:(NSString *)bundleID forDate:(NSDate *)date {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDate *today = [calendar startOfDayForDate:date];
+    NSDate *tomorrow = [calendar dateByAddingUnit:NSCalendarUnitDay value:1 toDate:today options:NSCalendarWrapComponents];
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"AIRecordingData"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"date >= %@ AND date < %@ AND bundleID == %@", today, tomorrow, bundleID];
+    request.predicate = predicate;
+    NSArray<AIRecordingData *> *todayRecordings = [self.persistentContainer.viewContext executeFetchRequest:request error:nil];
+    return [todayRecordings copy];
 }
 
 @end
