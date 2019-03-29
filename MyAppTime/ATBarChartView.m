@@ -58,6 +58,7 @@
 
 - (void)setUpView {
     _mainLayer = [CALayer layer];
+    _mainLayer.backgroundColor = [NSColor redColor].CGColor;
     _scrollView = [[NSScrollView alloc] init];
     [_scrollView.layer addSublayer:_mainLayer];
     [self addSubview:_scrollView];
@@ -83,6 +84,7 @@
         for (NSUInteger i = 0; i < numberOfBars; i++) {
             [self drawEntryAtIndex:i];
         }
+        
     }
 }
 
@@ -119,8 +121,10 @@
 - (void)drawBarWithXPos:(CGFloat)xPos yPos:(CGFloat)yPos color:(NSColor *)color {
     CALayer *barLayer = [CALayer layer];
     [barLayer setFrame:CGRectMake(xPos, yPos, _barWidth, _mainLayer.frame.size.height - _bottomSpace - yPos)];
+
     [barLayer setBackgroundColor:color.CGColor];
     [_mainLayer addSublayer:barLayer];
+    NSLog(@"%lf, %lf, %lf, %lf", barLayer.frame.size.width, barLayer.frame.size.height, xPos, yPos);
 }
 
 - (void)drawTitleWithXPos:(CGFloat)xPos yPos:(CGFloat)yPos title:(NSString *)title {
@@ -132,7 +136,7 @@
 }
 
 - (CGFloat)translateToYPosFromHeightValue:(float)height {
-    CGFloat yPos = 0.0;
+    CGFloat yPos = -100.0;
     return yPos;
 }
 

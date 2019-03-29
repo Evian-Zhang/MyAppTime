@@ -16,16 +16,25 @@
 
 - (instancetype)initWithWindowNibName:(NSNibName)windowNibName {
     if (self = [super initWithWindowNibName:windowNibName]) {
-        
+        self.recordingDataValues = [NSMutableArray array];
+        self.recordingDataNames = [NSMutableArray array];
     }
     return self;
 }
 
 - (void)windowDidLoad {
     [super windowDidLoad];
+    [self changeDataSourceToTodayRecordings];
     self.barChartView.delegate = self;
     self.barChartView.dataSource = self;
     // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
+}
+
+- (void)changeDataSourceToTodayRecordings {
+    self.recordingDataValues = [self todayRecordingsForBundleID:ATTotalTime].copy;
+    for (int i = 0; i < 24; i++) {
+        [self.recordingDataNames insertObject:[NSString stringWithFormat:@"%d", i + 1] atIndex:i];
+    }
 }
 
 - (NSArray<NSNumber *> *)todayRecordingsForBundleID:(NSString *)bundleID {
