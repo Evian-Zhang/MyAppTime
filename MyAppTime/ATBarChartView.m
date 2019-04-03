@@ -60,8 +60,11 @@
 - (void)setUpView {
     _mainLayer = [CALayer layer];
     _scrollView = [[NSScrollView alloc] init];
-    _scrollView.hasHorizontalScroller = YES;
+    _scrollView.automaticallyAdjustsContentInsets = NO;
+    _scrollView.autohidesScrollers = YES;
     [self addSubview:_scrollView];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollViewDidEndLiveScroll) name:NSScrollViewDidEndLiveScrollNotification object:nil];
 }
 
 - (void)setDataSource:(id<ATBarChartViewDataSource>)dataSource {
@@ -74,8 +77,9 @@
     NSUInteger numberOfBars = [_dataSource numberOfBarsInBarChartView:self];
     
     if (numberOfBars) {
-        CGFloat documentViewWidth = (_barWidth + _space) * (CGFloat)numberOfBars;
+        CGFloat documentViewWidth = _space + (_barWidth + _space) * (CGFloat)numberOfBars;
         CGFloat documentViewHeight = self.frame.size.height;
+        
         [_mainLayer setFrame:CGRectMake(0, 0, documentViewWidth, documentViewHeight)];
         
         _documentView = [[NSView alloc] initWithFrame:NSMakeRect(0, 0, documentViewWidth, documentViewHeight)];
@@ -84,7 +88,7 @@
         
         [_scrollView setDocumentView:_documentView];
         
-        [self drawBottomLineWithXPos:0.0 yPos:_bottomSpace];
+//        [self drawBottomLineWithXPos:0.0 yPos:_bottomSpace];
         
         for (NSUInteger i = 0; i < numberOfBars; i++) {
             [self drawEntryAtIndex:i];
@@ -99,7 +103,7 @@
     
     [self drawBarWithXPos:xPos height:height color:[_dataSource barChartView:self colorForBarAtIndex:index]];
     
-    [self drawTitleWithXPos:(xPos - _space / 2) yPos:-_bottomSpace title:[_dataSource barChartView:self titleForBarAtIndex:index]];
+    [self drawTitleWithXPos:(xPos - _space / 2) yPos:_bottomSpace - 20 title:[_dataSource barChartView:self titleForBarAtIndex:index]];
 }
 
 - (void)drawBarWithXPos:(CGFloat)xPos height:(CGFloat)height color:(NSColor *)color {
@@ -112,10 +116,10 @@
 
 - (void)drawTitleWithXPos:(CGFloat)xPos yPos:(CGFloat)yPos title:(NSString *)title {
     CATextLayer *textLayer = [CATextLayer layer];
-    [textLayer setFrame:CGRectMake(xPos, yPos, _barWidth + _space, 50)];
+    [textLayer setFrame:CGRectMake(xPos, yPos, _barWidth + _space, 15)];
     textLayer.alignmentMode = kCAAlignmentCenter;
     textLayer.string = title;
-    textLayer.fontSize = 20.0;
+    textLayer.fontSize = 10.0;
     [_mainLayer addSublayer:textLayer];
 }
 
@@ -128,11 +132,28 @@
     NSBezierPath *path = [NSBezierPath bezierPath];
     [path moveToPoint:CGPointMake(xPos, yPos)];
     [path lineToPoint:CGPointMake(_scrollView.frame.size.width, yPos)];
+    [path closePath];
+    [[NSColor whiteColor] setFill];
+    [path fill];
+    [[NSColor whiteColor] setStroke];
+    [path setLineWidth:1];
+    [path stroke];
     CAShapeLayer *lineLayer = [CAShapeLayer layer];
     lineLayer.path = path.quartzPath;
-    lineLayer.lineWidth = 0.5;
-    lineLayer.borderColor = [NSColor whiteColor].CGColor;
-    [self.layer insertSublayer:lineLayer atIndex:0];
+    lineLayer.lineWidth = 3;
+    lineLayer.strokeColor = [NSColor whiteColor].CGColor;
+    [self setWantsLayer:YES];
+    [self.layer addSublayer:lineLayer];
+}
+
+- (void)scrollToPoint:(NSPoint)point {
+    [_scrollView.contentView scrollToPoint:point];
+}
+
+- (void)scrollViewDidEndLiveScroll {
+    NSRect documentVisibleRect = _scrollView.documentVisibleRect;
+    NSUInteger leftBarIndex = floor(documentVisibleRect.origin.x / (_space + _barWidth));
+    NSUInteger rightBarIndex = floor((documentVisibleRect.origin.x + documentVisibleRect.size.width) / (_space + _barWidth));
 }
 
 @end

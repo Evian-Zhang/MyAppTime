@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ATMainWindowController : NSWindowController <ATBarChartViewDelegate, ATBarChartViewDataSource>
 
 @property (nonatomic) IBOutlet ATBarChartView *barChartView;
+
 @property (nonatomic) ATDataModel *dataModel;
 @property (nonatomic) NSMutableArray *recordingDataValues;
 @property (nonatomic) NSMutableArray *recordingDataNames;
