@@ -21,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak) id<ATBarChartViewDelegate> delegate;
 @property (nonatomic, weak) id<ATBarChartViewDataSource> dataSource;
 
+- (void)reloadData;
+
 - (void)scrollToPoint:(NSPoint)point;
 
 @end

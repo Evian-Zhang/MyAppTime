@@ -16,6 +16,8 @@
     CALayer *_mainLayer;
     NSScrollView *_scrollView;
     NSView *_documentView;
+    NSUInteger _numberOfBars;
+    NSMutableArray<CALayer *> *_bars;
 }
 
 - (void)awakeFromNib {
@@ -64,20 +66,22 @@
     _scrollView.autohidesScrollers = YES;
     [self addSubview:_scrollView];
     
+    _bars = [NSMutableArray<CALayer *> array];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollViewDidEndLiveScroll) name:NSScrollViewDidEndLiveScrollNotification object:nil];
 }
 
 - (void)setDataSource:(id<ATBarChartViewDataSource>)dataSource {
     _dataSource = dataSource;
-    
-    for (CALayer *sublayer in _mainLayer.sublayers) {
+    NSArray<CALayer *> *sublayers = [_mainLayer.sublayers copy];
+    for (CALayer *sublayer in sublayers) {
         [sublayer removeFromSuperlayer];
     }
     
-    NSUInteger numberOfBars = [_dataSource numberOfBarsInBarChartView:self];
+    _numberOfBars = [_dataSource numberOfBarsInBarChartView:self];
     
-    if (numberOfBars) {
-        CGFloat documentViewWidth = _space + (_barWidth + _space) * (CGFloat)numberOfBars;
+    if (_numberOfBars) {
+        CGFloat documentViewWidth = _space + (_barWidth + _space) * (CGFloat)_numberOfBars;
         CGFloat documentViewHeight = self.frame.size.height;
         
         [_mainLayer setFrame:CGRectMake(0, 0, documentViewWidth, documentViewHeight)];
@@ -90,16 +94,18 @@
         
 //        [self drawBottomLineWithXPos:0.0 yPos:_bottomSpace];
         
-        for (NSUInteger i = 0; i < numberOfBars; i++) {
-            [self drawEntryAtIndex:i];
+        float maxHeight = [self maxHeightFrom:0 to:_numberOfBars];
+        
+        for (NSUInteger i = 0; i < _numberOfBars; i++) {
+            [self drawEntryAtIndex:i withMaxHeight:maxHeight];
         }
         
     }
 }
 
-- (void)drawEntryAtIndex:(NSUInteger)index {
+- (void)drawEntryAtIndex:(NSUInteger)index withMaxHeight:(float)maxHeight{
     CGFloat xPos = _space + (CGFloat)index * (_barWidth + _space);
-    CGFloat height = [self relativeHeightFromAbsoluteHeight:[_dataSource barChartView:self heightForBarAtIndex:index]];
+    CGFloat height = [self relativeHeightFromAbsoluteHeight:[_dataSource barChartView:self heightForBarAtIndex:index] maxHeight:maxHeight];
     
     [self drawBarWithXPos:xPos height:height color:[_dataSource barChartView:self colorForBarAtIndex:index]];
     
@@ -112,6 +118,7 @@
 
     [barLayer setBackgroundColor:color.CGColor];
     [_mainLayer addSublayer:barLayer];
+    [_bars addObject:barLayer];
 }
 
 - (void)drawTitleWithXPos:(CGFloat)xPos yPos:(CGFloat)yPos title:(NSString *)title {
@@ -123,8 +130,13 @@
     [_mainLayer addSublayer:textLayer];
 }
 
-- (CGFloat)relativeHeightFromAbsoluteHeight:(float)height {
-    CGFloat relativeHeight = 10.0;
+- (CGFloat)relativeHeightFromAbsoluteHeight:(float)height maxHeight:(float)maxHeight{
+    CGFloat relativeHeight;
+    if (maxHeight != 0.0) {
+        relativeHeight = height / maxHeight * (self.frame.size.height - _bottomSpace);
+    } else {
+        relativeHeight = 0.0;
+    }
     return relativeHeight;
 }
 
@@ -146,6 +158,36 @@
     [self.layer addSublayer:lineLayer];
 }
 
+- (void)reloadData {
+    NSArray<CALayer *> *sublayers = [_mainLayer.sublayers copy];
+    for (CALayer *sublayer in sublayers) {
+        [sublayer removeFromSuperlayer];
+    }
+    _numberOfBars = [_dataSource numberOfBarsInBarChartView:self];
+    
+    if (_numberOfBars) {
+        CGFloat documentViewWidth = _space + (_barWidth + _space) * (CGFloat)_numberOfBars;
+        CGFloat documentViewHeight = self.frame.size.height;
+        
+        [_mainLayer setFrame:CGRectMake(0, 0, documentViewWidth, documentViewHeight)];
+        
+        _documentView = [[NSView alloc] initWithFrame:NSMakeRect(0, 0, documentViewWidth, documentViewHeight)];
+        [_documentView setWantsLayer:YES];
+        [_documentView.layer addSublayer:_mainLayer];
+        
+        [_scrollView setDocumentView:_documentView];
+        
+        //        [self drawBottomLineWithXPos:0.0 yPos:_bottomSpace];
+        
+        float maxHeight = [self maxHeightFrom:0 to:_numberOfBars];
+        
+        for (NSUInteger i = 0; i < _numberOfBars; i++) {
+            [self drawEntryAtIndex:i withMaxHeight:maxHeight];
+        }
+        
+    }
+}
+
 - (void)scrollToPoint:(NSPoint)point {
     [_scrollView.contentView scrollToPoint:point];
 }
@@ -153,7 +195,22 @@
 - (void)scrollViewDidEndLiveScroll {
     NSRect documentVisibleRect = _scrollView.documentVisibleRect;
     NSUInteger leftBarIndex = floor(documentVisibleRect.origin.x / (_space + _barWidth));
-    NSUInteger rightBarIndex = floor((documentVisibleRect.origin.x + documentVisibleRect.size.width) / (_space + _barWidth));
+    NSUInteger rightBarIndex = fmin(ceil((documentVisibleRect.origin.x + documentVisibleRect.size.width) / (_space + _barWidth)), _numberOfBars - 1);
+    
+    float maxHeight = [self maxHeightFrom:leftBarIndex to:rightBarIndex];
+    
+    
+}
+
+- (float)maxHeightFrom:(NSUInteger)start to:(NSUInteger)end {
+    float max = 0;
+    for (NSUInteger barIndex = start; barIndex < end; barIndex++) {
+        float height = [_dataSource barChartView:self heightForBarAtIndex:barIndex];
+        if (max < height) {
+            max = height;
+        }
+    }
+    return max;
 }
 
 @end

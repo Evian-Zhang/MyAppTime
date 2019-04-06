@@ -8,6 +8,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="ATMainWindowController">
             <connections>
                 <outlet property="barChartView" destination="2Do-F0-ITg" id="KT8-gI-QqH"/>
+                <outlet property="segmentedControl" destination="6Ib-9l-bCd" id="NaZ-yf-r80"/>
                 <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
@@ -17,15 +18,28 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="480" height="684"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="900"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <view key="contentView" id="se5-gp-TjO">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="684"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Do-F0-ITg" customClass="ATBarChartView">
-                        <rect key="frame" x="20" y="405" width="440" height="259"/>
+                        <rect key="frame" x="20" y="363" width="440" height="259"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
+                    <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Ib-9l-bCd">
+                        <rect key="frame" x="54" y="641" width="372" height="24"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="rounded" trackingMode="selectOne" id="yFx-6u-JRp">
+                            <font key="font" metaFont="system"/>
+                            <segments>
+                                <segment label="Today" selected="YES"/>
+                                <segment label="This week" tag="1"/>
+                                <segment label="This month"/>
+                                <segment label="This year"/>
+                            </segments>
+                        </segmentedCell>
+                    </segmentedControl>
                 </subviews>
             </view>
             <connections>
