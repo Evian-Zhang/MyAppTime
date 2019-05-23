@@ -45,11 +45,11 @@
     }
 }
 
-- (NSArray<NSNumber *> *)todayRecordingsForBundleID:(NSString *)bundleID {
+- (NSArray<ATTimeUnit *> *)todayRecordingsForBundleID:(NSString *)bundleID {
     const int dayHours = 24;
-    NSMutableArray<NSNumber *> *todayRecordings = [NSMutableArray<NSNumber *> arrayWithCapacity:dayHours];
+    NSMutableArray<ATTimeUnit *> *todayRecordings = [NSMutableArray<ATTimeUnit *> arrayWithCapacity:dayHours];
     for (int hour = 0; hour < dayHours; hour++) {
-        [todayRecordings insertObject:[NSNumber numberWithDouble:0.0] atIndex:hour];
+        [todayRecordings insertObject:[[ATTimeUnit alloc] init] atIndex:hour];
     }
     
     NSDate *now = [NSDate date];
@@ -58,8 +58,7 @@
     for (AIRecordingData *recordingData in recordingDatas) {
         NSDate *recordingDate = recordingData.date;
         int hour = [calendar component:NSCalendarUnitHour fromDate:recordingDate];
-        double duration = todayRecordings[hour].doubleValue;
-        todayRecordings[hour] = [NSNumber numberWithDouble:duration + recordingData.duration];
+        [todayRecordings[hour] addSeconds:recordingData.duration];
     }
     
     return todayRecordings;
@@ -73,11 +72,11 @@
     }
 }
 
-- (NSArray<NSNumber *> *)thisWeekRecordingForBundleID:(NSString *)bundleID {
+- (NSArray<ATTimeUnit *> *)thisWeekRecordingForBundleID:(NSString *)bundleID {
     const int weekDays = 7;
-    NSMutableArray<NSNumber *> *thisWeekRecordings = [NSMutableArray<NSNumber *> arrayWithCapacity:weekDays];
+    NSMutableArray<ATTimeUnit *> *thisWeekRecordings = [NSMutableArray<ATTimeUnit *> arrayWithCapacity:weekDays];
     for (int day = 0; day < weekDays; day++) {
-        [thisWeekRecordings insertObject:[NSNumber numberWithDouble:0.0] atIndex:day];
+        [thisWeekRecordings insertObject:[[ATTimeUnit alloc] init] atIndex:day];
     }
     
     NSDate *now = [NSDate date];
@@ -87,8 +86,7 @@
     for (AIRecordingData *recordingData in recordingDatas) {
         NSDate *recordingDate = recordingData.date;
         int day = [calendar ordinalityOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitWeekOfYear forDate:recordingDate] - 1;
-        double duration = thisWeekRecordings[day].doubleValue;
-        thisWeekRecordings[day] = [NSNumber numberWithDouble:duration + recordingData.duration];
+        [thisWeekRecordings[day] addSeconds:recordingData.duration];
     }
     return thisWeekRecordings;
 }
@@ -101,20 +99,19 @@
     }
 }
 
-- (NSArray<NSNumber *> *)thisMonthRecordingForBundleID:(NSString *)bundleID {
+- (NSArray<ATTimeUnit *> *)thisMonthRecordingForBundleID:(NSString *)bundleID {
     NSDate *now = [NSDate date];
     NSCalendar *calendar = [NSCalendar currentCalendar];
     const int monthDays = [calendar rangeOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitMonth forDate:now].length;
-    NSMutableArray<NSNumber *> *thisMonthRecordings = [NSMutableArray<NSNumber *> arrayWithCapacity:monthDays];
+    NSMutableArray<ATTimeUnit *> *thisMonthRecordings = [NSMutableArray<ATTimeUnit *> arrayWithCapacity:monthDays];
     for (int day = 0; day < monthDays; day++) {
-        [thisMonthRecordings insertObject:[NSNumber numberWithDouble:0.0] atIndex:day];
+        [thisMonthRecordings insertObject:[[ATTimeUnit alloc] init] atIndex:day];
     }
     NSArray<AIRecordingData *> *recordingDatas = [self.dataModel recordingDatasForBundleID:bundleID forMonth:now];
     for (AIRecordingData *recordingData in recordingDatas) {
         NSDate *recordingDate = recordingData.date;
         int day = [calendar component:NSCalendarUnitDay fromDate:recordingDate] - 1;
-        double duration = thisMonthRecordings[day].doubleValue;
-        thisMonthRecordings[day] = [NSNumber numberWithDouble:duration + recordingData.duration];
+        [thisMonthRecordings[day] addSeconds:recordingData.duration];
     }
     return thisMonthRecordings;
 }
@@ -127,20 +124,19 @@
     }
 }
 
-- (NSArray<NSNumber *> *)thisYearRecordingForBundleID:(NSString *)bundleID {
+- (NSArray<ATTimeUnit *> *)thisYearRecordingForBundleID:(NSString *)bundleID {
     NSDate *now = [NSDate date];
     NSCalendar *calendar = [NSCalendar currentCalendar];
     const int yearMonths = 12;
-    NSMutableArray<NSNumber *> *thisYearRecordings = [NSMutableArray<NSNumber *> arrayWithCapacity:yearMonths];
+    NSMutableArray<ATTimeUnit *> *thisYearRecordings = [NSMutableArray<ATTimeUnit *> arrayWithCapacity:yearMonths];
     for (int month = 0; month < yearMonths; month++) {
-        [thisYearRecordings insertObject:[NSNumber numberWithDouble:0.0] atIndex:month];
+        [thisYearRecordings insertObject:[[ATTimeUnit alloc] init] atIndex:month];
     }
     NSArray<AIRecordingData *> *recordingDatas = [self.dataModel recordingDatasForBundleID:bundleID forYear:now];
     for (AIRecordingData *recordingData in recordingDatas) {
         NSDate *recordingDate = recordingData.date;
         int month = [calendar component:NSCalendarUnitMonth fromDate:recordingDate] - 1;
-        double duration = thisYearRecordings[month].doubleValue;
-        thisYearRecordings[month] = [NSNumber numberWithDouble:duration + recordingData.duration];
+        [thisYearRecordings[month] addSeconds:recordingData.duration];
     }
     return thisYearRecordings;
 }
@@ -186,8 +182,8 @@
 
 - (float)barChartView:(nonnull ATBarChartView *)barChartView heightForBarAtIndex:(NSUInteger)index {
     if (self.recordingDataValues) {
-        NSNumber *duration = self.recordingDataValues[index];
-        return duration.doubleValue;
+        ATTimeUnit *duration = self.recordingDataValues[index];
+        return duration.floatValue;
     }
     return 0.0;
 }

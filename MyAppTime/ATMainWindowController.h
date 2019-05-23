@@ -10,6 +10,7 @@
 
 #import "ATDataModel.h"
 #import "ATBarChartView.h"
+#import "ATTimeUnit.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

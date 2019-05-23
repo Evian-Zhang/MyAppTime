@@ -17,6 +17,7 @@
 		5631389222492FB2000AFFFD /* ATDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5631389122492FB2000AFFFD /* ATDataModel.m */; };
 		56609E01224BD1F40065E4D7 /* ATBarChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 56609E00224BD1F40065E4D7 /* ATBarChartView.m */; };
 		566D2768224C8E00007A05FA /* NSBezierPath+BezierPathQuartzUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 566D2767224C8E00007A05FA /* NSBezierPath+BezierPathQuartzUtilities.m */; };
+		56E585742296F2CD002A7069 /* ATTimeUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 56E585732296F2CD002A7069 /* ATTimeUnit.m */; };
 		56E89D0E224A4EC4006D3931 /* AIRecordingData+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 56E89D0C224A4EC4006D3931 /* AIRecordingData+CoreDataClass.m */; };
 		56E89D0F224A4EC4006D3931 /* AIRecordingData+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 56E89D0D224A4EC4006D3931 /* AIRecordingData+CoreDataProperties.m */; };
 /* End PBXBuildFile section */
@@ -44,6 +45,8 @@
 		566D2766224C8E00007A05FA /* NSBezierPath+BezierPathQuartzUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSBezierPath+BezierPathQuartzUtilities.h"; sourceTree = "<group>"; };
 		566D2767224C8E00007A05FA /* NSBezierPath+BezierPathQuartzUtilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSBezierPath+BezierPathQuartzUtilities.m"; sourceTree = "<group>"; };
 		56CB693C2249ED6C002B697F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/MainMenu.strings"; sourceTree = "<group>"; };
+		56E585722296F2CD002A7069 /* ATTimeUnit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ATTimeUnit.h; sourceTree = "<group>"; };
+		56E585732296F2CD002A7069 /* ATTimeUnit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ATTimeUnit.m; sourceTree = "<group>"; };
 		56E89D0A224A4EC4006D3931 /* AIRecordingData+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AIRecordingData+CoreDataProperties.h"; sourceTree = "<group>"; };
 		56E89D0B224A4EC4006D3931 /* AIRecordingData+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AIRecordingData+CoreDataClass.h"; sourceTree = "<group>"; };
 		56E89D0C224A4EC4006D3931 /* AIRecordingData+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AIRecordingData+CoreDataClass.m"; sourceTree = "<group>"; };
@@ -89,6 +92,8 @@
 				56E89D0C224A4EC4006D3931 /* AIRecordingData+CoreDataClass.m */,
 				5631389022492FB2000AFFFD /* ATDataModel.h */,
 				5631389122492FB2000AFFFD /* ATDataModel.m */,
+				56E585722296F2CD002A7069 /* ATTimeUnit.h */,
+				56E585732296F2CD002A7069 /* ATTimeUnit.m */,
 				563110CF224A29FA0071EFD9 /* ATMainWindowController.h */,
 				563110D0224A29FA0071EFD9 /* ATMainWindowController.m */,
 				563110D1224A29FA0071EFD9 /* ATMainWindowController.xib */,
@@ -191,6 +196,7 @@
 				5631388022492E7B000AFFFD /* MyAppTime.xcdatamodeld in Sources */,
 				56E89D0E224A4EC4006D3931 /* AIRecordingData+CoreDataClass.m in Sources */,
 				5631388822492E7E000AFFFD /* main.m in Sources */,
+				56E585742296F2CD002A7069 /* ATTimeUnit.m in Sources */,
 				5631387D22492E7B000AFFFD /* AppDelegate.m in Sources */,
 				56609E01224BD1F40065E4D7 /* ATBarChartView.m in Sources */,
 			);

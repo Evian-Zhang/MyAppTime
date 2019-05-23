@@ -11,6 +11,7 @@
 
 #import "AIRecordingData+CoreDataClass.h"
 #import "AIRecordingData+CoreDataProperties.h"
+#import "ATTimeUnit.h"
 
 #define ATTotalTime @"ATTotalTime"
 
