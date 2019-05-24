@@ -13,9 +13,11 @@
     CGFloat _space;
     CGFloat _bottomSpace;
     CGFloat _topSpace;
+    CGFloat _rightSpace;
     CALayer *_mainLayer;
     NSScrollView *_scrollView;
     NSView *_documentView;
+    NSView *_yAxis;
     NSUInteger _numberOfBars;
     NSMutableArray<CALayer *> *_bars;
 }
@@ -25,6 +27,7 @@
     _space = 10.0;
     _bottomSpace = 40.0;
     _topSpace = 40.0;
+    _rightSpace = 40.0;
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
@@ -81,7 +84,7 @@
     _numberOfBars = [_dataSource numberOfBarsInBarChartView:self];
     
     if (_numberOfBars) {
-        CGFloat documentViewWidth = _space + (_barWidth + _space) * (CGFloat)_numberOfBars;
+        CGFloat documentViewWidth = _space + (_barWidth + _space) * (CGFloat)_numberOfBars + _rightSpace;
         CGFloat documentViewHeight = self.frame.size.height;
         
         [_mainLayer setFrame:CGRectMake(0, 0, documentViewWidth, documentViewHeight)];
@@ -91,6 +94,15 @@
         [_documentView.layer addSublayer:_mainLayer];
         
         [_scrollView setDocumentView:_documentView];
+        
+        if (_yAxis && [_scrollView.subviews containsObject:_yAxis]) {
+            [_yAxis removeFromSuperview];
+        }
+        
+        _yAxis = [[NSView alloc] initWithFrame:NSMakeRect(_scrollView.frame.size.width, 0, _rightSpace, _scrollView.frame.size.height)];
+        [_yAxis setWantsLayer:YES];
+        _yAxis.layer.backgroundColor = [NSColor blueColor].CGColor;
+        [_scrollView addFloatingSubview:_yAxis forAxis:NSEventGestureAxisHorizontal];
         
 //        [self drawBottomLineWithXPos:0.0 yPos:_bottomSpace];
         
@@ -105,7 +117,7 @@
 
 - (void)drawEntryAtIndex:(NSUInteger)index withMaxHeight:(float)maxHeight{
     CGFloat xPos = _space + (CGFloat)index * (_barWidth + _space);
-    CGFloat height = [self relativeHeightFromAbsoluteHeight:[_dataSource barChartView:self heightForBarAtIndex:index] maxHeight:maxHeight];
+    CGFloat height = [self relativeHeightFromAbsoluteHeight:[_dataSource barChartView:self timeUnitForBarAtIndex:index].floatValue maxHeight:maxHeight];
     
     [self drawBarWithXPos:xPos height:height color:[_dataSource barChartView:self colorForBarAtIndex:index]];
     
@@ -158,6 +170,24 @@
     [self.layer addSublayer:lineLayer];
 }
 
+- (void)drawVerticalLine {
+    NSArray<CALayer *> *sublayers = _yAxis.layer.sublayers.copy;
+    for (CALayer *sublayer in sublayers) {
+        [sublayer removeFromSuperlayer];
+    }
+    CALayer *lineLayer = [CALayer layer];
+    [lineLayer setFrame:CGRectMake(0, _bottomSpace, 3, self.frame.size.height - _bottomSpace)];
+    [lineLayer setBackgroundColor:[NSColor whiteColor].CGColor];
+    [_yAxis.layer addSublayer:lineLayer];
+    
+    CATextLayer *textLayer = [CATextLayer layer];
+    [textLayer setFrame:CGRectMake(5, self.frame.size.height - 15, 30, 15)];
+    textLayer.alignmentMode = kCAAlignmentLeft;
+    textLayer.string = [self maxTimeUnitFrom:0 to:_numberOfBars].description;
+    textLayer.fontSize = 10.0;
+    [_yAxis.layer addSublayer:textLayer];
+}
+
 - (void)reloadData {
     NSArray<CALayer *> *sublayers = [_mainLayer.sublayers copy];
     for (CALayer *sublayer in sublayers) {
@@ -166,7 +196,7 @@
     _numberOfBars = [_dataSource numberOfBarsInBarChartView:self];
     
     if (_numberOfBars) {
-        CGFloat documentViewWidth = _space + (_barWidth + _space) * (CGFloat)_numberOfBars;
+        CGFloat documentViewWidth = _space + (_barWidth + _space) * (CGFloat)_numberOfBars + _rightSpace;
         CGFloat documentViewHeight = self.frame.size.height;
         
         [_mainLayer setFrame:CGRectMake(0, 0, documentViewWidth, documentViewHeight)];
@@ -177,6 +207,15 @@
         
         [_scrollView setDocumentView:_documentView];
         
+        if (_yAxis) {
+            [_yAxis removeFromSuperview];
+        }
+        
+        _yAxis = [[NSView alloc] initWithFrame:NSMakeRect(self.frame.size.width - _rightSpace, 0, _rightSpace, _scrollView.frame.size.height)];
+        [_yAxis setWantsLayer:YES];
+        _yAxis.layer.backgroundColor = [NSColor blueColor].CGColor;
+        [_scrollView addFloatingSubview:_yAxis forAxis:NSEventGestureAxisHorizontal];
+        [self drawVerticalLine];
         //        [self drawBottomLineWithXPos:0.0 yPos:_bottomSpace];
         
         float maxHeight = [self maxHeightFrom:0 to:_numberOfBars];
@@ -205,12 +244,26 @@
 - (float)maxHeightFrom:(NSUInteger)start to:(NSUInteger)end {
     float max = 0;
     for (NSUInteger barIndex = start; barIndex < end; barIndex++) {
-        float height = [_dataSource barChartView:self heightForBarAtIndex:barIndex];
+        float height = [_dataSource barChartView:self timeUnitForBarAtIndex:barIndex].floatValue;
         if (max < height) {
             max = height;
         }
     }
     return max;
 }
+
+- (ATTimeUnit *)maxTimeUnitFrom:(NSUInteger)start to:(NSUInteger)end {
+    float max = 0;
+    int index = 0;
+    for (NSUInteger barIndex = start; barIndex < end; barIndex++) {
+        float height = [_dataSource barChartView:self timeUnitForBarAtIndex:barIndex].floatValue;
+        if (max < height) {
+            max = height;
+            index = barIndex;
+        }
+    }
+    return [_dataSource barChartView:self timeUnitForBarAtIndex:index];
+}
+
 
 @end

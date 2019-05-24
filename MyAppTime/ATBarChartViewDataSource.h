@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "ATTimeUnit.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol ATBarChartViewDataSource <NSObject>
@@ -16,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSColor *)barChartView:(ATBarChartView *)barChartView colorForBarAtIndex:(NSUInteger)index;
 - (NSString *)barChartView:(ATBarChartView *)barChartView titleForBarAtIndex:(NSUInteger)index;
 - (float)barChartView:(ATBarChartView *)barChartView heightForBarAtIndex:(NSUInteger)index;
+- (ATTimeUnit *)barChartView:(ATBarChartView *)barChartView timeUnitForBarAtIndex:(NSUInteger)index;
 
 @end
 

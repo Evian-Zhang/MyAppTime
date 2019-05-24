@@ -11,17 +11,18 @@
 #import "ATDataModel.h"
 #import "ATBarChartView.h"
 #import "ATTimeUnit.h"
+#import "ATAppTimeWindowController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ATMainWindowController : NSWindowController <ATBarChartViewDelegate, ATBarChartViewDataSource, NSTableViewDelegate, NSTableViewDataSource>
+@interface ATMainWindowController : NSWindowController <ATBarChartViewDelegate, ATBarChartViewDataSource, NSTableViewDelegate, NSTableViewDataSource, NSWindowDelegate>
 
-typedef enum ATCurrentDisplayMode {
-    ATCurrentModeDisplayDay,
-    ATCurrentModeDisplayWeek,
-    ATCurrentModeDisplayMonth,
-    ATCurrentModeDisplayYear
-} ATCurrentDisplayMode;
+//typedef enum ATCurrentDisplayMode {
+//    ATCurrentModeDisplayDay,
+//    ATCurrentModeDisplayWeek,
+//    ATCurrentModeDisplayMonth,
+//    ATCurrentModeDisplayYear
+//} ATCurrentDisplayMode;
 
 @property (nonatomic) IBOutlet NSSegmentedControl *segmentedControl;
 @property (nonatomic) IBOutlet ATBarChartView *barChartView;
@@ -32,6 +33,7 @@ typedef enum ATCurrentDisplayMode {
 @property (nonatomic) NSMutableArray<NSString *> *recordingDataNames;
 @property (nonatomic) NSMutableDictionary<NSString *, ATTimeUnit *> *recordingDurations;
 @property (nonatomic) NSArray<NSString *> *recordingBundleIDs;
+@property (nonatomic) NSMutableArray<ATAppTimeWindowController *> *appTimeWindowControllers;
 
 @end
 

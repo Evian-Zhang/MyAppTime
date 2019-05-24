@@ -22,6 +22,7 @@
         self.recordingDataNames = [NSMutableArray<NSString *> array];
         self.recordingDurations = [NSMutableDictionary<NSString *, ATTimeUnit *> dictionary];
         self.recordingBundleIDs = [NSArray<NSString *> array];
+        self.appTimeWindowControllers = [NSMutableArray<ATAppTimeWindowController *> array];
         _currentDisplayMode = ATCurrentModeDisplayDay;
     }
     return self;
@@ -40,7 +41,20 @@
     
     self.segmentedControl.target = self;
     self.segmentedControl.action = @selector(segmentedControlSelectionDidChange);
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAppTimeWindowHasClosed:) name:@"ATAppTimeWindowHasClosed" object:nil];
     // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
+}
+
+- (void)handleAppTimeWindowHasClosed:(NSNotification *)notifiction {
+    ATAppTimeWindowController *appTimeWindowController = [notifiction.userInfo objectForKey:@"self"];
+    if (appTimeWindowController) {
+        [self.appTimeWindowControllers removeObject:appTimeWindowController];
+    }
+}
+
+- (void)windowDidResize:(NSNotification *)notification {
+    [self.barChartView reloadData];
 }
 
 #pragma mark - today's datasource
@@ -75,7 +89,6 @@
 - (NSDictionary<NSString *, ATTimeUnit *> *)todayRecordings {
     NSMutableDictionary<NSString *, ATTimeUnit *> *todayRecordings = [NSMutableDictionary<NSString *, ATTimeUnit *> dictionary];
     NSDate *now = [NSDate date];
-    NSCalendar *calendar = [NSCalendar currentCalendar];
     NSArray<AIRecordingData *> *recordingDatas = [self.dataModel recordingDatasForDate:now];
     for (AIRecordingData *recordingData in recordingDatas) {
         if ([recordingData.bundleID isEqualToString:ATTotalTime]) {
@@ -295,6 +308,13 @@
     return 0.0;
 }
 
+- (ATTimeUnit *)barChartView:(ATBarChartView *)barChartView timeUnitForBarAtIndex:(NSUInteger)index {
+    if (self.recordingDataValues) {
+        return self.recordingDataValues[index];
+    }
+    return [[ATTimeUnit alloc] init];
+}
+
 - (nonnull NSString *)barChartView:(nonnull ATBarChartView *)barChartView titleForBarAtIndex:(NSUInteger)index {
     if (self.recordingDataNames) {
         return self.recordingDataNames[index];
@@ -335,9 +355,12 @@
     }
     if (tableColumn == tableView.tableColumns[2]) {
         NSRect buttonRect = tableCellView.frame;
-        NSButton *displayButton = [NSButton buttonWithTitle:NSLocalizedString(@"Show detail...", @"button description in table") target:nil action:@selector(displayCell)];
+        NSButton *displayButton = [NSButton buttonWithTitle:NSLocalizedString(@"Show detail...", @"button description in table") target:nil action:@selector(displayCell:)];
+//        [displayButton setObjectValue:self.recordingBundleIDs[row]];
 //        displayButton.frame = buttonRect;
-        for (NSView *view in tableCellView.subviews) {
+        [displayButton setTag:row];
+        NSArray<NSView *> *subviews = tableCellView.subviews.copy;
+        for (NSView *view in subviews) {
             [view removeFromSuperview];
         }
         [tableCellView addSubview:displayButton];
@@ -361,8 +384,27 @@
     return sortedDictionary;
 }
 
-- (void)displayCell {
-    
+- (void)displayCell:(NSButton *)sender {
+    int row = sender.tag;
+    NSString *bundleID = self.recordingBundleIDs[row];
+    ATAppTimeWindowController *appTimeWindowController;
+    for (ATAppTimeWindowController *tmp in self.appTimeWindowControllers) {
+        if ([tmp.bundleID isEqualToString:bundleID]) {
+            appTimeWindowController = tmp;
+            break;
+        }
+    }
+    if (appTimeWindowController) {
+        [appTimeWindowController.window orderFront:nil];
+        [appTimeWindowController.window makeKeyWindow];
+    } else {
+        appTimeWindowController = [[ATAppTimeWindowController alloc] initWithWindowNibName:@"ATAppTimeWindowController"];
+        [appTimeWindowController initDataModel:self.dataModel andBundleID:bundleID];
+        [self.appTimeWindowControllers addObject:appTimeWindowController];
+        [appTimeWindowController.window center];
+        [appTimeWindowController.window orderFront:nil];
+        [appTimeWindowController.window makeKeyWindow];
+    }
 }
 
 @end
