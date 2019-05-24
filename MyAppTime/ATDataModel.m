@@ -179,6 +179,17 @@
     return [todayRecordings copy];
 }
 
+- (NSArray<AIRecordingData *> *)recordingDatasForDate:(NSDate *)date {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDate *today = [calendar startOfDayForDate:date];
+    NSDate *tomorrow = [calendar dateByAddingUnit:NSCalendarUnitDay value:1 toDate:today options:NSCalendarSearchBackwards];
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"AIRecordingData"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"date >= %@ AND date < %@", today, tomorrow];
+    request.predicate = predicate;
+    NSArray<AIRecordingData *> *todayRecordings = [self.persistentContainer.viewContext executeFetchRequest:request error:nil];
+    return [todayRecordings copy];
+}
+
 - (NSArray<AIRecordingData *> *)recordingDatasForBundleID:(NSString *)bundleID forWeek:(NSDate *)today {
     NSCalendar *calendar = [NSCalendar currentCalendar];
     [calendar setFirstWeekday:2];
@@ -187,6 +198,19 @@
     NSDate *weekEnd = [calendar dateByAddingUnit:NSCalendarUnitDay value:7 toDate:weekStart options:NSCalendarSearchBackwards];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"AIRecordingData"];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"date >= %@ AND date < %@ AND bundleID == %@", weekStart, weekEnd, bundleID];
+    request.predicate = predicate;
+    NSArray<AIRecordingData *> *thisWeekRecordings = [self.persistentContainer.viewContext executeFetchRequest:request error:nil];
+    return [thisWeekRecordings copy];
+}
+
+- (NSArray<AIRecordingData *> *)recordingDatasForWeek:(NSDate *)today {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    [calendar setFirstWeekday:2];
+    NSDate *weekStart = [NSDate date];
+    [calendar rangeOfUnit:NSCalendarUnitWeekOfYear startDate:&weekStart interval:nil forDate:today];
+    NSDate *weekEnd = [calendar dateByAddingUnit:NSCalendarUnitDay value:7 toDate:weekStart options:NSCalendarSearchBackwards];
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"AIRecordingData"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"date >= %@ AND date < %@", weekStart, weekEnd];
     request.predicate = predicate;
     NSArray<AIRecordingData *> *thisWeekRecordings = [self.persistentContainer.viewContext executeFetchRequest:request error:nil];
     return [thisWeekRecordings copy];
@@ -204,6 +228,18 @@
     return [thisMonthRecordings copy];
 }
 
+- (NSArray<AIRecordingData *> *)recordingDatasForMonth:(NSDate *)today {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDate *monthStart = [NSDate date];
+    [calendar rangeOfUnit:NSCalendarUnitMonth startDate:&monthStart interval:nil forDate:today];
+    NSDate *monthEnd = [calendar dateByAddingUnit:NSCalendarUnitMonth value:1 toDate:monthStart options:NSCalendarSearchBackwards];
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"AIRecordingData"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"date >= %@ AND date < %@", monthStart, monthEnd];
+    request.predicate = predicate;
+    NSArray<AIRecordingData *> *thisMonthRecordings = [self.persistentContainer.viewContext executeFetchRequest:request error:nil];
+    return [thisMonthRecordings copy];
+}
+
 - (NSArray<AIRecordingData *> *)recordingDatasForBundleID:(NSString *)bundleID forYear:(NSDate *)today {
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSDate *yearStart = [NSDate date];
@@ -211,6 +247,18 @@
     NSDate *yearEnd = [calendar dateByAddingUnit:NSCalendarUnitYear value:1 toDate:yearStart options:NSCalendarSearchBackwards];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"AIRecordingData"];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"date >= %@ AND date < %@ AND bundleID == %@", yearStart, yearEnd, bundleID];
+    request.predicate = predicate;
+    NSArray<AIRecordingData *> *thisYearRecordings = [self.persistentContainer.viewContext executeFetchRequest:request error:nil];
+    return [thisYearRecordings copy];
+}
+
+- (NSArray<AIRecordingData *> *)recordingDatasForYear:(NSDate *)today {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDate *yearStart = [NSDate date];
+    [calendar rangeOfUnit:NSCalendarUnitYear startDate:&yearStart interval:nil forDate:today];
+    NSDate *yearEnd = [calendar dateByAddingUnit:NSCalendarUnitYear value:1 toDate:yearStart options:NSCalendarSearchBackwards];
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"AIRecordingData"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"date >= %@ AND date < %@", yearStart, yearEnd];
     request.predicate = predicate;
     NSArray<AIRecordingData *> *thisYearRecordings = [self.persistentContainer.viewContext executeFetchRequest:request error:nil];
     return [thisYearRecordings copy];

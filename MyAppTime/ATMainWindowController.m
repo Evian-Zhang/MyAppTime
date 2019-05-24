@@ -18,8 +18,10 @@
 
 - (instancetype)initWithWindowNibName:(NSNibName)windowNibName {
     if (self = [super initWithWindowNibName:windowNibName]) {
-        self.recordingDataValues = [NSMutableArray array];
-        self.recordingDataNames = [NSMutableArray array];
+        self.recordingDataValues = [NSMutableArray<ATTimeUnit *> array];
+        self.recordingDataNames = [NSMutableArray<NSString *> array];
+        self.recordingDurations = [NSMutableDictionary<NSString *, ATTimeUnit *> dictionary];
+        self.recordingBundleIDs = [NSArray<NSString *> array];
         _currentDisplayMode = ATCurrentModeDisplayDay;
     }
     return self;
@@ -32,13 +34,19 @@
     self.barChartView.dataSource = self;
     [self adjustBarChartViewClipView];
     
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.tableView reloadData];
+    
     self.segmentedControl.target = self;
     self.segmentedControl.action = @selector(segmentedControlSelectionDidChange);
     // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
 }
 
+#pragma mark - today's datasource
 - (void)changeDataSourceToTodayRecordings {
     self.recordingDataValues = [self todayRecordingsForBundleID:ATTotalTime].copy;
+    self.recordingDurations = [self todayRecordings].copy;
     [self.recordingDataNames removeAllObjects];
     for (int i = 0; i < 24; i++) {
         [self.recordingDataNames insertObject:[NSString stringWithFormat:@"%d时", i] atIndex:i];
@@ -64,15 +72,39 @@
     return todayRecordings;
 }
 
+- (NSDictionary<NSString *, ATTimeUnit *> *)todayRecordings {
+    NSMutableDictionary<NSString *, ATTimeUnit *> *todayRecordings = [NSMutableDictionary<NSString *, ATTimeUnit *> dictionary];
+    NSDate *now = [NSDate date];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSArray<AIRecordingData *> *recordingDatas = [self.dataModel recordingDatasForDate:now];
+    for (AIRecordingData *recordingData in recordingDatas) {
+        if ([recordingData.bundleID isEqualToString:ATTotalTime]) {
+            continue;
+        }
+        ATTimeUnit *duration = [todayRecordings objectForKey:recordingData.bundleID];
+        if (!duration) {
+            duration = [[ATTimeUnit alloc] init];
+            [todayRecordings setObject:duration forKey:recordingData.bundleID];
+        }
+        [duration addSeconds:recordingData.duration];
+    }
+    self.recordingBundleIDs = [todayRecordings keysSortedByValueUsingComparator:^NSComparisonResult(ATTimeUnit *  _Nonnull obj1, ATTimeUnit *  _Nonnull obj2) {
+        return [obj1 compare:obj2];
+    }];
+    return todayRecordings;
+}
+
+#pragma mark - this week's datasource
 - (void)changeDataSourceToThisWeekRecordings {
-    self.recordingDataValues = [self thisWeekRecordingForBundleID:ATTotalTime].copy;
+    self.recordingDataValues = [self thisWeekRecordingsForBundleID:ATTotalTime].copy;
+    self.recordingDurations = [self thisWeekRecordings].copy;
     [self.recordingDataNames removeAllObjects];
     for (int i = 0; i < 7; i++) {
         [self.recordingDataNames insertObject:[NSString stringWithFormat:@"周%d", i + 1] atIndex:i];
     }
 }
 
-- (NSArray<ATTimeUnit *> *)thisWeekRecordingForBundleID:(NSString *)bundleID {
+- (NSArray<ATTimeUnit *> *)thisWeekRecordingsForBundleID:(NSString *)bundleID {
     const int weekDays = 7;
     NSMutableArray<ATTimeUnit *> *thisWeekRecordings = [NSMutableArray<ATTimeUnit *> arrayWithCapacity:weekDays];
     for (int day = 0; day < weekDays; day++) {
@@ -91,15 +123,40 @@
     return thisWeekRecordings;
 }
 
+- (NSDictionary<NSString *, ATTimeUnit *> *)thisWeekRecordings {
+    NSMutableDictionary<NSString *, ATTimeUnit *> *thisWeekRecordings = [NSMutableDictionary<NSString *, ATTimeUnit *> dictionary];
+    NSDate *now = [NSDate date];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    [calendar setFirstWeekday:2];
+    NSArray<AIRecordingData *> *recordingDatas = [self.dataModel recordingDatasForWeek:now];
+    for (AIRecordingData *recordingData in recordingDatas) {
+        if ([recordingData.bundleID isEqualToString:ATTotalTime]) {
+            continue;
+        }
+        ATTimeUnit *duration = [thisWeekRecordings objectForKey:recordingData.bundleID];
+        if (!duration) {
+            duration = [[ATTimeUnit alloc] init];
+            [thisWeekRecordings setObject:duration forKey:recordingData.bundleID];
+        }
+        [duration addSeconds:recordingData.duration];
+    }
+    self.recordingBundleIDs = [thisWeekRecordings keysSortedByValueUsingComparator:^NSComparisonResult(ATTimeUnit *  _Nonnull obj1, ATTimeUnit *  _Nonnull obj2) {
+        return [obj1 compare:obj2];
+    }];
+    return thisWeekRecordings;
+}
+
+#pragma mark - this month's datasource
 - (void)changeDataSourceToThisMonthRecordings {
-    self.recordingDataValues = [self thisMonthRecordingForBundleID:ATTotalTime].copy;
+    self.recordingDataValues = [self thisMonthRecordingsForBundleID:ATTotalTime].copy;
+    self.recordingDurations = [self thisMonthRecordings].copy;
     [self.recordingDataNames removeAllObjects];
     for (int i = 0; i < self.recordingDataValues.count; i++) {
         [self.recordingDataNames insertObject:[NSString stringWithFormat:@"%d号", i + 1] atIndex:i];
     }
 }
 
-- (NSArray<ATTimeUnit *> *)thisMonthRecordingForBundleID:(NSString *)bundleID {
+- (NSArray<ATTimeUnit *> *)thisMonthRecordingsForBundleID:(NSString *)bundleID {
     NSDate *now = [NSDate date];
     NSCalendar *calendar = [NSCalendar currentCalendar];
     const int monthDays = [calendar rangeOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitMonth forDate:now].length;
@@ -116,15 +173,38 @@
     return thisMonthRecordings;
 }
 
+- (NSDictionary<NSString *, ATTimeUnit *> *)thisMonthRecordings {
+    NSMutableDictionary<NSString *, ATTimeUnit *> *thisMonthRecordings = [NSMutableDictionary<NSString *, ATTimeUnit *> dictionary];
+    NSDate *now = [NSDate date];
+    NSArray<AIRecordingData *> *recordingDatas = [self.dataModel recordingDatasForMonth:now];
+    for (AIRecordingData *recordingData in recordingDatas) {
+        if ([recordingData.bundleID isEqualToString:ATTotalTime]) {
+            continue;
+        }
+        ATTimeUnit *duration = [thisMonthRecordings objectForKey:recordingData.bundleID];
+        if (!duration) {
+            duration = [[ATTimeUnit alloc] init];
+            [thisMonthRecordings setObject:duration forKey:recordingData.bundleID];
+        }
+        [duration addSeconds:recordingData.duration];
+    }
+    self.recordingBundleIDs = [thisMonthRecordings keysSortedByValueUsingComparator:^NSComparisonResult(ATTimeUnit *  _Nonnull obj1, ATTimeUnit *  _Nonnull obj2) {
+        return [obj1 compare:obj2];
+    }];
+    return thisMonthRecordings;
+}
+
+#pragma mark - this year's datasource
 - (void)changeDataSourceToThisYearRecordings {
-    self.recordingDataValues = [self thisYearRecordingForBundleID:ATTotalTime].copy;
+    self.recordingDataValues = [self thisYearRecordingsForBundleID:ATTotalTime].copy;
+    self.recordingDurations = [self thisYearRecordings].copy;
     [self.recordingDataNames removeAllObjects];
     for (int i = 0; i < self.recordingDataValues.count; i++) {
         [self.recordingDataNames insertObject:[NSString stringWithFormat:@"%d月", i + 1] atIndex:i];
     }
 }
 
-- (NSArray<ATTimeUnit *> *)thisYearRecordingForBundleID:(NSString *)bundleID {
+- (NSArray<ATTimeUnit *> *)thisYearRecordingsForBundleID:(NSString *)bundleID {
     NSDate *now = [NSDate date];
     NSCalendar *calendar = [NSCalendar currentCalendar];
     const int yearMonths = 12;
@@ -141,6 +221,28 @@
     return thisYearRecordings;
 }
 
+- (NSDictionary<NSString *, ATTimeUnit *> *)thisYearRecordings {
+    NSMutableDictionary<NSString *, ATTimeUnit *> *thisYearRecordings = [NSMutableDictionary<NSString *, ATTimeUnit *> dictionary];
+    NSDate *now = [NSDate date];
+    NSArray<AIRecordingData *> *recordingDatas = [self.dataModel recordingDatasForYear:now];
+    for (AIRecordingData *recordingData in recordingDatas) {
+        if ([recordingData.bundleID isEqualToString:ATTotalTime]) {
+            continue;
+        }
+        ATTimeUnit *duration = [thisYearRecordings objectForKey:recordingData.bundleID];
+        if (!duration) {
+            duration = [[ATTimeUnit alloc] init];
+            [thisYearRecordings setObject:duration forKey:recordingData.bundleID];
+        }
+        [duration addSeconds:recordingData.duration];
+    }
+    self.recordingBundleIDs = [thisYearRecordings keysSortedByValueUsingComparator:^NSComparisonResult(ATTimeUnit *  _Nonnull obj1, ATTimeUnit *  _Nonnull obj2) {
+        return [obj1 compare:obj2];
+    }];
+    return thisYearRecordings;
+}
+
+#pragma mark - adjust view
 - (void)adjustBarChartViewClipView {
     [self.barChartView scrollToPoint:NSMakePoint(0.0, self.barChartView.frame.size.height)];
 }
@@ -151,24 +253,28 @@
             _currentDisplayMode = ATCurrentModeDisplayDay;
             [self changeDataSourceToTodayRecordings];
             [self.barChartView reloadData];
+            [self.tableView reloadData];
             break;
             
         case 1:
             _currentDisplayMode = ATCurrentModeDisplayWeek;
             [self changeDataSourceToThisWeekRecordings];
             [self.barChartView reloadData];
+            [self.tableView reloadData];
             break;
             
         case 2:
             _currentDisplayMode = ATCurrentModeDisplayMonth;
             [self changeDataSourceToThisMonthRecordings];
             [self.barChartView reloadData];
+            [self.tableView reloadData];
             break;
             
         case 3:
             _currentDisplayMode = ATCurrentModeDisplayYear;
             [self changeDataSourceToThisYearRecordings];
             [self.barChartView reloadData];
+            [self.tableView reloadData];
             break;
             
         default:
@@ -176,6 +282,7 @@
     }
 }
 
+#pragma mark - conform to <ATBarChartViewDelegate> and <ATBarChartViewDataSource>
 - (nonnull NSColor *)barChartView:(nonnull ATBarChartView *)barChartView colorForBarAtIndex:(NSUInteger)index {
     return [NSColor textColor];
 }
@@ -200,6 +307,45 @@
         return self.recordingDataNames.count;
     }
     return 0;
+}
+
+#pragma mark - conform to <NSTableViewDelegate> and <NSTableViewDataSource>
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
+    if (self.recordingDurations) {
+        return self.recordingDurations.count;
+    }
+    return 0;
+}
+
+- (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
+    NSString *cellIdentifier;
+    NSString *cellText;
+    if (tableColumn == tableView.tableColumns[0]) {
+        cellIdentifier = @"ATApplicationCellIdentifier";
+        cellText = self.recordingBundleIDs[row];
+    } else if (tableColumn == tableView.tableColumns[1]) {
+        cellIdentifier = @"ATDurationCellIdentifier";
+        cellText = [[self.recordingDurations objectForKey:self.recordingBundleIDs[row]] description];
+    } else {
+        cellIdentifier = @"";
+    }
+    NSTableCellView *tableCellView = [tableView makeViewWithIdentifier:cellIdentifier owner:nil];
+    if (cellText.length > 0) {
+        tableCellView.textField.stringValue = cellText;
+    }
+    return tableCellView;
+}
+
+#pragma mark - auxiliary method
+- (NSDictionary<NSString *, ATTimeUnit *> *)sortedDictionaryOf:(NSMutableDictionary<NSString *, ATTimeUnit *> *)dictionary {
+    NSArray<NSString *> *sortedKeys = [dictionary keysSortedByValueUsingComparator:^NSComparisonResult(ATTimeUnit *  _Nonnull obj1, ATTimeUnit *  _Nonnull obj2) {
+        return [obj1 compare:obj2];
+    }];
+    NSMutableDictionary<NSString *, ATTimeUnit *> *sortedDictionary = [NSMutableDictionary<NSString *, ATTimeUnit *> dictionary];
+    for (NSString *key in sortedKeys) {
+        [sortedDictionary setObject:[dictionary objectForKey:key] forKey:key];
+    }
+    return sortedDictionary;
 }
 
 @end

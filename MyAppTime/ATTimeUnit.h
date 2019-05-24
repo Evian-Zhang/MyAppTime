@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSComparisonResult)compare:(ATTimeUnit *)other;
 - (void)addSeconds:(int)second;
 - (float)floatValue;
+- (NSString *)description;
 
 @end
 

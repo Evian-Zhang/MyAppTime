@@ -44,12 +44,12 @@
 
 - (void)addSeconds:(int)second {
     self.second += second;
-    if (self.second > 60) {
+    if (self.second >= 60) {
         self.minute += self.second / 60;
         self.second %= 60;
     }
     
-    if (self.minute > 60) {
+    if (self.minute >= 60) {
         self.hour += self.minute / 60;
         self.minute %= 60;
     }
@@ -57,6 +57,37 @@
 
 - (float)floatValue {
     return self.hour + (float)self.minute / 60 + (float)self.second / 3600;
+}
+
+- (NSString *)description {
+    NSMutableString *description = [NSMutableString string];
+    if (self.hour > 0) {
+        [description appendFormat:@"%d小时", self.hour];
+        if (self.minute > 0) {
+            [description appendFormat:@"%d分钟", self.minute];
+            if (self.second > 0) {
+                [description appendFormat:@"%d秒", self.second];
+            }
+        } else {
+            if (self.second > 0) {
+                [description appendFormat:@"0分钟%d秒", self.second];
+            }
+        }
+    } else {
+        if (self.minute > 0) {
+            [description appendFormat:@"%d分钟", self.minute];
+            if (self.second > 0) {
+                [description appendFormat:@"%d秒", self.second];
+            }
+        } else {
+            if (self.second > 0) {
+                [description appendFormat:@"%d秒", self.second];
+            } else {
+                [description appendString:@"0秒"];
+            }
+        }
+    }
+    return description;
 }
 
 @end

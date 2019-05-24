@@ -35,6 +35,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSArray<AIRecordingData *> *)recordingDatasForBundleID:(NSString *)bundleID forWeek:(NSDate *)today;
 - (NSArray<AIRecordingData *> *)recordingDatasForBundleID:(NSString *)bundleID forMonth:(NSDate *)today;
 - (NSArray<AIRecordingData *> *)recordingDatasForBundleID:(NSString *)bundleID forYear:(NSDate *)today;
+- (NSArray<AIRecordingData *> *)recordingDatasForDate:(NSDate *)date;
+- (NSArray<AIRecordingData *> *)recordingDatasForWeek:(NSDate *)today;
+- (NSArray<AIRecordingData *> *)recordingDatasForMonth:(NSDate *)today;
+- (NSArray<AIRecordingData *> *)recordingDatasForYear:(NSDate *)today;
 
 @end
 

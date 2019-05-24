@@ -14,7 +14,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ATMainWindowController : NSWindowController <ATBarChartViewDelegate, ATBarChartViewDataSource>
+@interface ATMainWindowController : NSWindowController <ATBarChartViewDelegate, ATBarChartViewDataSource, NSTableViewDelegate, NSTableViewDataSource>
 
 typedef enum ATCurrentDisplayMode {
     ATCurrentModeDisplayDay,
@@ -25,10 +25,13 @@ typedef enum ATCurrentDisplayMode {
 
 @property (nonatomic) IBOutlet NSSegmentedControl *segmentedControl;
 @property (nonatomic) IBOutlet ATBarChartView *barChartView;
+@property (nonatomic) IBOutlet NSTableView *tableView;
 
 @property (nonatomic) ATDataModel *dataModel;
-@property (nonatomic) NSMutableArray *recordingDataValues;
-@property (nonatomic) NSMutableArray *recordingDataNames;
+@property (nonatomic) NSMutableArray<ATTimeUnit *> *recordingDataValues;
+@property (nonatomic) NSMutableArray<NSString *> *recordingDataNames;
+@property (nonatomic) NSMutableDictionary<NSString *, ATTimeUnit *> *recordingDurations;
+@property (nonatomic) NSArray<NSString *> *recordingBundleIDs;
 
 @end
 
