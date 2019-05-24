@@ -327,13 +327,26 @@
         cellIdentifier = @"ATDurationCellIdentifier";
         cellText = [[self.recordingDurations objectForKey:self.recordingBundleIDs[row]] description];
     } else {
-        cellIdentifier = @"";
+        cellIdentifier = @"ATDisplayCellIdentifier";
     }
     NSTableCellView *tableCellView = [tableView makeViewWithIdentifier:cellIdentifier owner:nil];
     if (cellText.length > 0) {
         tableCellView.textField.stringValue = cellText;
     }
+    if (tableColumn == tableView.tableColumns[2]) {
+        NSRect buttonRect = tableCellView.frame;
+        NSButton *displayButton = [NSButton buttonWithTitle:NSLocalizedString(@"Show detail...", @"button description in table") target:nil action:@selector(displayCell)];
+//        displayButton.frame = buttonRect;
+        for (NSView *view in tableCellView.subviews) {
+            [view removeFromSuperview];
+        }
+        [tableCellView addSubview:displayButton];
+    }
     return tableCellView;
+}
+
+- (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row {
+    return 30.0;
 }
 
 #pragma mark - auxiliary method
@@ -346,6 +359,10 @@
         [sortedDictionary setObject:[dictionary objectForKey:key] forKey:key];
     }
     return sortedDictionary;
+}
+
+- (void)displayCell {
+    
 }
 
 @end

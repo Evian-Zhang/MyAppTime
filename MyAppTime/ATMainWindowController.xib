@@ -48,7 +48,7 @@
                             <rect key="frame" x="1" y="0.0" width="438" height="296"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="1a1-iM-bqK" viewBased="YES" id="zO5-ec-1Kp">
+                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" headerView="1a1-iM-bqK" viewBased="YES" id="zO5-ec-1Kp">
                                     <rect key="frame" x="0.0" y="0.0" width="438" height="271"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
@@ -134,7 +134,7 @@
                                             </textFieldCell>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
-                                                <tableCellView id="zfM-Aq-tzk">
+                                                <tableCellView identifier="ATDisplayCellIdentifier" id="zfM-Aq-tzk">
                                                     <rect key="frame" x="322" y="1" width="114" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
