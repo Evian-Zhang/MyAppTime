@@ -89,7 +89,7 @@
         [duration addSeconds:recordingData.duration];
     }
     self.recordingBundleIDs = [todayRecordings keysSortedByValueUsingComparator:^NSComparisonResult(ATTimeUnit *  _Nonnull obj1, ATTimeUnit *  _Nonnull obj2) {
-        return [obj1 compare:obj2];
+        return [obj2 compare:obj1];
     }];
     return todayRecordings;
 }
@@ -141,7 +141,7 @@
         [duration addSeconds:recordingData.duration];
     }
     self.recordingBundleIDs = [thisWeekRecordings keysSortedByValueUsingComparator:^NSComparisonResult(ATTimeUnit *  _Nonnull obj1, ATTimeUnit *  _Nonnull obj2) {
-        return [obj1 compare:obj2];
+        return [obj2 compare:obj1];
     }];
     return thisWeekRecordings;
 }
@@ -189,7 +189,7 @@
         [duration addSeconds:recordingData.duration];
     }
     self.recordingBundleIDs = [thisMonthRecordings keysSortedByValueUsingComparator:^NSComparisonResult(ATTimeUnit *  _Nonnull obj1, ATTimeUnit *  _Nonnull obj2) {
-        return [obj1 compare:obj2];
+        return [obj2 compare:obj1];
     }];
     return thisMonthRecordings;
 }
@@ -237,7 +237,7 @@
         [duration addSeconds:recordingData.duration];
     }
     self.recordingBundleIDs = [thisYearRecordings keysSortedByValueUsingComparator:^NSComparisonResult(ATTimeUnit *  _Nonnull obj1, ATTimeUnit *  _Nonnull obj2) {
-        return [obj1 compare:obj2];
+        return [obj2 compare:obj1];
     }];
     return thisYearRecordings;
 }

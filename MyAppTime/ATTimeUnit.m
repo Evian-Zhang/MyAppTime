@@ -35,7 +35,7 @@
     
     if (self.second < other.second) {
         return NSOrderedAscending;
-    } else if (self.minute > other.minute) {
+    } else if (self.second > other.second) {
         return NSOrderedDescending;
     }
     
