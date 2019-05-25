@@ -14,7 +14,9 @@
 
 @end
 
-@implementation AppDelegate
+@implementation AppDelegate {
+    NSFileManager *_defaultManager;
+}
 
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
@@ -22,10 +24,17 @@
     self.dataModel.persistentContainer = self.persistentContainer;
     [self.dataModel addTimer];
     
+    _defaultManager = [NSFileManager defaultManager];
+    
+    [self handleUserDefaults];
+    
     self.mainWindowController = [[ATMainWindowController alloc] initWithWindowNibName:@"ATMainWindowController"];
     self.mainWindowController.dataModel = self.dataModel;
     [self.mainWindowController.window center];
     [self.mainWindowController.window orderFront:nil];
+    
+    self.preferencesItem.target = self;
+    self.preferencesItem.action = @selector(showPreferencesWindow);
 }
 
 
@@ -33,6 +42,48 @@
     [self.dataModel writeBack];
 }
 
+- (void)handleUserDefaults {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary<NSString *, id> *registrationDictionary = @{@"wantsStartAtLogin":@YES};
+    [userDefaults registerDefaults:registrationDictionary];
+    [userDefaults synchronize];
+    
+    BOOL wantsStartAtLogin = [userDefaults boolForKey:@"wantsStartAtLogin"];
+    NSString *launchAgentsPath = @"~/Library/LaunchAgents/".stringByExpandingTildeInPath;
+    NSString *launchdPlistPath = [launchAgentsPath stringByAppendingString:@"/com.zhang.evian.MyAppTimeLauncher.plist"];
+    BOOL hasPlist = [_defaultManager fileExistsAtPath:launchdPlistPath];
+    if (wantsStartAtLogin) {
+        if (!hasPlist) {
+            NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"com.zhang.evian.MyAppTimeLauncher" ofType:@"plist"];
+            NSError *copyError;
+            [_defaultManager copyItemAtPath:plistPath toPath:launchdPlistPath error:&copyError];
+            if (copyError) {
+                NSLog(@"%@", copyError);
+            }
+        }
+    } else {
+        if (hasPlist) {
+            NSError *removeError;
+            [_defaultManager removeItemAtPath:launchdPlistPath error:&removeError];
+            if (removeError) {
+                NSLog(@"%@", removeError);
+            }
+        }
+    }
+}
+
+- (void)showPreferencesWindow {
+    if (self.preferencesWindowController.window) {
+        [self.preferencesWindowController showWindow:nil];
+//        [self.preferencesWindowController.window makeKeyWindow];
+    } else {
+        if (!self.preferencesWindowController) {
+            self.preferencesWindowController = [[ATPreferencesWindowController alloc] initWithWindowNibName:@"ATPreferencesWindowController"];
+        }
+        [self.preferencesWindowController showWindow:nil];
+//        [self.preferencesWindowController.window orderFront:nil];
+    }
+}
 
 #pragma mark - Core Data stack
 

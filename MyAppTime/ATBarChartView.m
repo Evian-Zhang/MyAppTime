@@ -87,13 +87,10 @@
 
 - (void)setDataSource:(id<ATBarChartViewDataSource>)dataSource {
     _dataSource = dataSource;
-    
-    //clear all sublayers
     NSArray<CALayer *> *sublayers = [_mainLayer.sublayers copy];
     for (CALayer *sublayer in sublayers) {
         [sublayer removeFromSuperlayer];
     }
-    
     _numberOfBars = [_dataSource numberOfBarsInBarChartView:self];
     
     if (_numberOfBars) {
@@ -101,34 +98,27 @@
         CGFloat documentViewWidth = _space + (_barWidth + _space) * (CGFloat)_numberOfBars + _rightSpace;
         CGFloat documentViewHeight = self.frame.size.height;
         
-        //set frame and backgroundColor of _mainlayer
         [_mainLayer setFrame:CGRectMake(0, 0, documentViewWidth, documentViewHeight)];
         [_mainLayer setBackgroundColor:_backgroundColor.CGColor];
         
-        //set _documentView
         _documentView = [[NSView alloc] initWithFrame:NSMakeRect(0, 0, documentViewWidth, documentViewHeight)];
         [_documentView setWantsLayer:YES];
         [_documentView.layer addSublayer:_mainLayer];
         
-        //set _yAxis
-        if (_yAxis && [_scrollView.subviews containsObject:_yAxis]) {
+        [_scrollView setDocumentView:_documentView];
+        
+        if (_yAxis) {
             [_yAxis removeFromSuperview];
         }
         
-        _yAxis = [[NSView alloc] initWithFrame:NSMakeRect(_scrollView.frame.size.width, 0, _rightSpace, _scrollView.frame.size.height)];
+        _yAxis = [[NSView alloc] initWithFrame:NSMakeRect(self.frame.size.width - _rightSpace, 0, _rightSpace, _scrollView.frame.size.height)];
         [_yAxis setWantsLayer:YES];
         _yAxis.layer.backgroundColor = _backgroundColor.CGColor;
-        [self drawVerticalLine];
-        
-        //set _scrollView
-        [_scrollView setDocumentView:_documentView];
         [_scrollView addFloatingSubview:_yAxis forAxis:NSEventGestureAxisHorizontal];
-        
-        //set _scrollView's contentView in case the scrollView is longer than its documentView
         [_scrollView.contentView setWantsLayer:YES];
         [_scrollView.contentView.layer setBackgroundColor:_backgroundColor.CGColor];
+        [self drawVerticalLine];
         
-        //draw bars
         float maxHeight = [self maxHeightFrom:0 to:_numberOfBars];
         
         for (NSUInteger i = 0; i < _numberOfBars; i++) {

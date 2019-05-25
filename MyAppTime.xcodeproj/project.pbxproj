@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		560713642299022000BF8ECD /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 560713632299022000BF8ECD /* CoreServices.framework */; };
 		563110D2224A29FA0071EFD9 /* ATMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 563110D0224A29FA0071EFD9 /* ATMainWindowController.m */; };
 		563110D3224A29FA0071EFD9 /* ATMainWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 563110D1224A29FA0071EFD9 /* ATMainWindowController.xib */; };
 		5631387D22492E7B000AFFFD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5631387C22492E7B000AFFFD /* AppDelegate.m */; };
@@ -18,6 +19,9 @@
 		56604B2B2297B089003BA43A /* ATAppTimeWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56604B292297B089003BA43A /* ATAppTimeWindowController.m */; };
 		56604B2C2297B089003BA43A /* ATAppTimeWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56604B2A2297B089003BA43A /* ATAppTimeWindowController.xib */; };
 		56609E01224BD1F40065E4D7 /* ATBarChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 56609E00224BD1F40065E4D7 /* ATBarChartView.m */; };
+		5668EA8E22991E21003CEDEE /* com.zhang.evian.MyAppTimeLauncher.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5668EA8D22991E21003CEDEE /* com.zhang.evian.MyAppTimeLauncher.plist */; };
+		5668EA92229924CA003CEDEE /* ATPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5668EA90229924CA003CEDEE /* ATPreferencesWindowController.m */; };
+		5668EA93229924CA003CEDEE /* ATPreferencesWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5668EA91229924CA003CEDEE /* ATPreferencesWindowController.xib */; };
 		566D2768224C8E00007A05FA /* NSBezierPath+BezierPathQuartzUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 566D2767224C8E00007A05FA /* NSBezierPath+BezierPathQuartzUtilities.m */; };
 		56E585742296F2CD002A7069 /* ATTimeUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 56E585732296F2CD002A7069 /* ATTimeUnit.m */; };
 		56E89D0E224A4EC4006D3931 /* AIRecordingData+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 56E89D0C224A4EC4006D3931 /* AIRecordingData+CoreDataClass.m */; };
@@ -25,6 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		560713632299022000BF8ECD /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		563110CF224A29FA0071EFD9 /* ATMainWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ATMainWindowController.h; sourceTree = "<group>"; };
 		563110D0224A29FA0071EFD9 /* ATMainWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ATMainWindowController.m; sourceTree = "<group>"; };
 		563110D1224A29FA0071EFD9 /* ATMainWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ATMainWindowController.xib; sourceTree = "<group>"; };
@@ -47,6 +52,10 @@
 		56609E00224BD1F40065E4D7 /* ATBarChartView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ATBarChartView.m; sourceTree = "<group>"; };
 		56609E03224BDADB0065E4D7 /* ATBarChartViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ATBarChartViewDelegate.h; sourceTree = "<group>"; };
 		56609E04224BDB080065E4D7 /* ATBarChartViewDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ATBarChartViewDataSource.h; sourceTree = "<group>"; };
+		5668EA8D22991E21003CEDEE /* com.zhang.evian.MyAppTimeLauncher.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = com.zhang.evian.MyAppTimeLauncher.plist; path = ../../../../Downloads/com.zhang.evian.MyAppTimeLauncher.plist; sourceTree = "<group>"; };
+		5668EA8F229924CA003CEDEE /* ATPreferencesWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ATPreferencesWindowController.h; sourceTree = "<group>"; };
+		5668EA90229924CA003CEDEE /* ATPreferencesWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ATPreferencesWindowController.m; sourceTree = "<group>"; };
+		5668EA91229924CA003CEDEE /* ATPreferencesWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ATPreferencesWindowController.xib; sourceTree = "<group>"; };
 		566D2766224C8E00007A05FA /* NSBezierPath+BezierPathQuartzUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSBezierPath+BezierPathQuartzUtilities.h"; sourceTree = "<group>"; };
 		566D2767224C8E00007A05FA /* NSBezierPath+BezierPathQuartzUtilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSBezierPath+BezierPathQuartzUtilities.m"; sourceTree = "<group>"; };
 		56CB693C2249ED6C002B697F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/MainMenu.strings"; sourceTree = "<group>"; };
@@ -63,18 +72,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				560713642299022000BF8ECD /* CoreServices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		560713602298E8F200BF8ECD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				560713632299022000BF8ECD /* CoreServices.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		5631386F22492E7B000AFFFD = {
 			isa = PBXGroup;
 			children = (
 				5631388F22492EA6000AFFFD /* README.md */,
 				5631387A22492E7B000AFFFD /* MyAppTime */,
 				5631387922492E7B000AFFFD /* Products */,
+				560713602298E8F200BF8ECD /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -105,6 +124,9 @@
 				56604B282297B089003BA43A /* ATAppTimeWindowController.h */,
 				56604B292297B089003BA43A /* ATAppTimeWindowController.m */,
 				56604B2A2297B089003BA43A /* ATAppTimeWindowController.xib */,
+				5668EA8F229924CA003CEDEE /* ATPreferencesWindowController.h */,
+				5668EA90229924CA003CEDEE /* ATPreferencesWindowController.m */,
+				5668EA91229924CA003CEDEE /* ATPreferencesWindowController.xib */,
 				56609E03224BDADB0065E4D7 /* ATBarChartViewDelegate.h */,
 				56609E04224BDB080065E4D7 /* ATBarChartViewDataSource.h */,
 				56609DFF224BD1F40065E4D7 /* ATBarChartView.h */,
@@ -117,8 +139,17 @@
 				5631388722492E7E000AFFFD /* main.m */,
 				5631388922492E7E000AFFFD /* MyAppTime.entitlements */,
 				5631387E22492E7B000AFFFD /* MyAppTime.xcdatamodeld */,
+				5668EA8C22991DF6003CEDEE /* Supporting Files */,
 			);
 			path = MyAppTime;
+			sourceTree = "<group>";
+		};
+		5668EA8C22991DF6003CEDEE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				5668EA8D22991E21003CEDEE /* com.zhang.evian.MyAppTimeLauncher.plist */,
+			);
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -184,10 +215,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5668EA8E22991E21003CEDEE /* com.zhang.evian.MyAppTimeLauncher.plist in Resources */,
 				5631388222492E7E000AFFFD /* Assets.xcassets in Resources */,
 				563110D3224A29FA0071EFD9 /* ATMainWindowController.xib in Resources */,
 				5631388522492E7E000AFFFD /* MainMenu.xib in Resources */,
 				56604B2C2297B089003BA43A /* ATAppTimeWindowController.xib in Resources */,
+				5668EA93229924CA003CEDEE /* ATPreferencesWindowController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -207,6 +240,7 @@
 				5631388822492E7E000AFFFD /* main.m in Sources */,
 				56E585742296F2CD002A7069 /* ATTimeUnit.m in Sources */,
 				5631387D22492E7B000AFFFD /* AppDelegate.m in Sources */,
+				5668EA92229924CA003CEDEE /* ATPreferencesWindowController.m in Sources */,
 				56609E01224BD1F40065E4D7 /* ATBarChartView.m in Sources */,
 				56604B2B2297B089003BA43A /* ATAppTimeWindowController.m in Sources */,
 			);
