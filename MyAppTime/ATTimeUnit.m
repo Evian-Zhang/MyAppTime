@@ -90,4 +90,35 @@
     return description;
 }
 
+- (NSString *)shortDescription {
+    NSMutableString *description = [NSMutableString string];
+    if (self.hour > 0) {
+        [description appendFormat:@"%dh", self.hour];
+        if (self.minute > 0) {
+            [description appendFormat:@"%dm", self.minute];
+            if (self.second > 0) {
+                [description appendFormat:@"%ds", self.second];
+            }
+        } else {
+            if (self.second > 0) {
+                [description appendFormat:@"0m%ds", self.second];
+            }
+        }
+    } else {
+        if (self.minute > 0) {
+            [description appendFormat:@"%dm", self.minute];
+            if (self.second > 0) {
+                [description appendFormat:@"%ds", self.second];
+            }
+        } else {
+            if (self.second > 0) {
+                [description appendFormat:@"%ds", self.second];
+            } else {
+                [description appendString:@"0s"];
+            }
+        }
+    }
+    return description;
+}
+
 @end

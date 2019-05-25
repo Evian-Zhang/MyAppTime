@@ -112,9 +112,7 @@
     self.recordingDataValues = [self thisWeekRecordingsForBundleID:ATTotalTime].copy;
     self.recordingDurations = [self thisWeekRecordings].copy;
     [self.recordingDataNames removeAllObjects];
-    for (int i = 0; i < 7; i++) {
-        [self.recordingDataNames insertObject:[NSString stringWithFormat:@"周%d", i + 1] atIndex:i];
-    }
+    self.recordingDataNames = @[@"周一", @"周二", @"周三", @"周四", @"周五", @"周六", @"周日"].mutableCopy;
 }
 
 - (NSArray<ATTimeUnit *> *)thisWeekRecordingsForBundleID:(NSString *)bundleID {
@@ -296,16 +294,33 @@
 }
 
 #pragma mark - conform to <ATBarChartViewDelegate> and <ATBarChartViewDataSource>
-- (nonnull NSColor *)barChartView:(nonnull ATBarChartView *)barChartView colorForBarAtIndex:(NSUInteger)index {
-    return [NSColor textColor];
-}
-
 - (float)barChartView:(nonnull ATBarChartView *)barChartView heightForBarAtIndex:(NSUInteger)index {
     if (self.recordingDataValues) {
         ATTimeUnit *duration = self.recordingDataValues[index];
         return duration.floatValue;
     }
     return 0.0;
+}
+
+- (float)widthForBarsInBarChartView:(ATBarChartView *)barChartView {
+    double width = 0;;
+    switch (_currentDisplayMode) {
+        case ATCurrentModeDisplayDay:
+            width = 10;
+            break;
+        
+        case ATCurrentModeDisplayWeek:
+            width = 40;
+            break;
+            
+        case ATCurrentModeDisplayMonth:
+            width = 10;
+            break;
+            
+        case ATCurrentModeDisplayYear:
+            width = 20;
+    }
+    return width;
 }
 
 - (ATTimeUnit *)barChartView:(ATBarChartView *)barChartView timeUnitForBarAtIndex:(NSUInteger)index {
@@ -356,8 +371,6 @@
     if (tableColumn == tableView.tableColumns[2]) {
         NSRect buttonRect = tableCellView.frame;
         NSButton *displayButton = [NSButton buttonWithTitle:NSLocalizedString(@"Show detail...", @"button description in table") target:nil action:@selector(displayCell:)];
-//        [displayButton setObjectValue:self.recordingBundleIDs[row]];
-//        displayButton.frame = buttonRect;
         [displayButton setTag:row];
         NSArray<NSView *> *subviews = tableCellView.subviews.copy;
         for (NSView *view in subviews) {

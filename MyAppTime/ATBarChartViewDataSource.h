@@ -15,9 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol ATBarChartViewDataSource <NSObject>
 
 - (NSUInteger)numberOfBarsInBarChartView:(ATBarChartView *)barChartView;
-- (NSColor *)barChartView:(ATBarChartView *)barChartView colorForBarAtIndex:(NSUInteger)index;
 - (NSString *)barChartView:(ATBarChartView *)barChartView titleForBarAtIndex:(NSUInteger)index;
 - (float)barChartView:(ATBarChartView *)barChartView heightForBarAtIndex:(NSUInteger)index;
+- (float)widthForBarsInBarChartView:(ATBarChartView *)barChartView;
 - (ATTimeUnit *)barChartView:(ATBarChartView *)barChartView timeUnitForBarAtIndex:(NSUInteger)index;
 
 @end

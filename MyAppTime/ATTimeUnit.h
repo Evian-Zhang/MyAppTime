@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addSeconds:(int)second;
 - (float)floatValue;
 - (NSString *)description;
+- (NSString *)shortDescription;
 
 @end
 
