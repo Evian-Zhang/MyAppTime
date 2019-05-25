@@ -38,8 +38,10 @@
     
     NSStatusBar *statusBar = [NSStatusBar systemStatusBar];
     self.statusItem = [statusBar statusItemWithLength:NSVariableStatusItemLength];
-//    [statusItem image]
-    self.statusItem.button.image = [NSImage imageNamed:@"statusItemImage"];
+    NSImage *statusItemImage = [NSImage imageNamed:@"statusItemImage"];
+    statusItemImage.size = NSMakeSize(18.0, 18.0);
+    statusItemImage.template = YES;
+    self.statusItem.button.image = statusItemImage;
 }
 
 
