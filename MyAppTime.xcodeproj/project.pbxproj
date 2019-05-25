@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		560713642299022000BF8ECD /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 560713632299022000BF8ECD /* CoreServices.framework */; };
+		5617509B22999D5100C14E21 /* ATStatusItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5617509922999D5100C14E21 /* ATStatusItemViewController.m */; };
+		5617509C22999D5100C14E21 /* ATStatusItemViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5617509A22999D5100C14E21 /* ATStatusItemViewController.xib */; };
 		563110D2224A29FA0071EFD9 /* ATMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 563110D0224A29FA0071EFD9 /* ATMainWindowController.m */; };
 		563110D3224A29FA0071EFD9 /* ATMainWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 563110D1224A29FA0071EFD9 /* ATMainWindowController.xib */; };
 		5631387D22492E7B000AFFFD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5631387C22492E7B000AFFFD /* AppDelegate.m */; };
@@ -30,6 +32,10 @@
 
 /* Begin PBXFileReference section */
 		560713632299022000BF8ECD /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
+		5617509822999D5100C14E21 /* ATStatusItemViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ATStatusItemViewController.h; sourceTree = "<group>"; };
+		5617509922999D5100C14E21 /* ATStatusItemViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ATStatusItemViewController.m; sourceTree = "<group>"; };
+		5617509A22999D5100C14E21 /* ATStatusItemViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ATStatusItemViewController.xib; sourceTree = "<group>"; };
+		5617509D22999DFA00C14E21 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		563110CF224A29FA0071EFD9 /* ATMainWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ATMainWindowController.h; sourceTree = "<group>"; };
 		563110D0224A29FA0071EFD9 /* ATMainWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ATMainWindowController.m; sourceTree = "<group>"; };
 		563110D1224A29FA0071EFD9 /* ATMainWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ATMainWindowController.xib; sourceTree = "<group>"; };
@@ -124,6 +130,9 @@
 				56604B282297B089003BA43A /* ATAppTimeWindowController.h */,
 				56604B292297B089003BA43A /* ATAppTimeWindowController.m */,
 				56604B2A2297B089003BA43A /* ATAppTimeWindowController.xib */,
+				5617509822999D5100C14E21 /* ATStatusItemViewController.h */,
+				5617509922999D5100C14E21 /* ATStatusItemViewController.m */,
+				5617509A22999D5100C14E21 /* ATStatusItemViewController.xib */,
 				5668EA8F229924CA003CEDEE /* ATPreferencesWindowController.h */,
 				5668EA90229924CA003CEDEE /* ATPreferencesWindowController.m */,
 				5668EA91229924CA003CEDEE /* ATPreferencesWindowController.xib */,
@@ -133,6 +142,7 @@
 				56609E00224BD1F40065E4D7 /* ATBarChartView.m */,
 				566D2766224C8E00007A05FA /* NSBezierPath+BezierPathQuartzUtilities.h */,
 				566D2767224C8E00007A05FA /* NSBezierPath+BezierPathQuartzUtilities.m */,
+				5617509D22999DFA00C14E21 /* PrefixHeader.pch */,
 				5631388122492E7E000AFFFD /* Assets.xcassets */,
 				5631388322492E7E000AFFFD /* MainMenu.xib */,
 				5631388622492E7E000AFFFD /* Info.plist */,
@@ -220,6 +230,7 @@
 				563110D3224A29FA0071EFD9 /* ATMainWindowController.xib in Resources */,
 				5631388522492E7E000AFFFD /* MainMenu.xib in Resources */,
 				56604B2C2297B089003BA43A /* ATAppTimeWindowController.xib in Resources */,
+				5617509C22999D5100C14E21 /* ATStatusItemViewController.xib in Resources */,
 				5668EA93229924CA003CEDEE /* ATPreferencesWindowController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -231,6 +242,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5617509B22999D5100C14E21 /* ATStatusItemViewController.m in Sources */,
 				566D2768224C8E00007A05FA /* NSBezierPath+BezierPathQuartzUtilities.m in Sources */,
 				56E89D0F224A4EC4006D3931 /* AIRecordingData+CoreDataProperties.m in Sources */,
 				5631389222492FB2000AFFFD /* ATDataModel.m in Sources */,

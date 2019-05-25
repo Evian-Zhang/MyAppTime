@@ -1,0 +1,22 @@
+//
+//  PrefixHeader.pch
+//  MyAppTime
+//
+//  Created by Evian张 on 2019/5/25.
+//  Copyright © 2019 Evian张. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+typedef enum ATCurrentDisplayMode {
+    ATCurrentModeDisplayDay,
+    ATCurrentModeDisplayWeek,
+    ATCurrentModeDisplayMonth,
+    ATCurrentModeDisplayYear
+} ATCurrentDisplayMode;
+
+#endif /* PrefixHeader_pch */

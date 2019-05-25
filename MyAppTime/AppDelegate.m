@@ -42,6 +42,8 @@
     statusItemImage.size = NSMakeSize(18.0, 18.0);
     statusItemImage.template = YES;
     self.statusItem.button.image = statusItemImage;
+    self.statusItem.button.target = self;
+    self.statusItem.button.action = @selector(showPopover);
 }
 
 
@@ -80,7 +82,7 @@
 }
 
 - (void)showPreferencesWindow {
-    if (self.preferencesWindowController.window) {
+    if (self.preferencesWindowController.isWindowLoaded) {
         [self.preferencesWindowController showWindow:nil];
 //        [self.preferencesWindowController.window makeKeyWindow];
     } else {
@@ -90,6 +92,15 @@
         [self.preferencesWindowController showWindow:nil];
 //        [self.preferencesWindowController.window orderFront:nil];
     }
+}
+
+- (void)showPopover {
+    if (!self.popover) {
+        self.popover = [[NSPopover alloc] init];
+    }
+    self.popover.behavior = NSPopoverBehaviorTransient;
+    self.popover.contentViewController = [[ATStatusItemViewController alloc] initWithNibName:@"ATStatusItemViewController" bundle:nil];
+    [self.popover showRelativeToRect:self.statusItem.button.bounds ofView:self.statusItem.button preferredEdge:NSRectEdgeMaxY];
 }
 
 #pragma mark - Core Data stack

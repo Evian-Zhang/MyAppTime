@@ -11,6 +11,7 @@
 
 #import "ATMainWindowController.h"
 #import "ATPreferencesWindowController.h"
+#import "ATStatusItemViewController.h"
 #import "ATDataModel.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
@@ -22,6 +23,7 @@
 @property (nonatomic) ATDataModel *dataModel;
 
 @property (nonatomic) NSStatusItem *statusItem;
+@property (nonatomic) NSPopover *popover;
 
 @property (nonatomic) IBOutlet NSMenuItem *preferencesItem;
 
