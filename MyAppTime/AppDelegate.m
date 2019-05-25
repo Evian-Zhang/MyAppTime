@@ -28,13 +28,18 @@
     
     [self handleUserDefaults];
     
-    self.mainWindowController = [[ATMainWindowController alloc] initWithWindowNibName:@"ATMainWindowController"];
-    self.mainWindowController.dataModel = self.dataModel;
-    [self.mainWindowController.window center];
-    [self.mainWindowController.window orderFront:nil];
+//    self.mainWindowController = [[ATMainWindowController alloc] initWithWindowNibName:@"ATMainWindowController"];
+//    self.mainWindowController.dataModel = self.dataModel;
+//    [self.mainWindowController.window center];
+//    [self.mainWindowController.window orderFront:nil];
     
     self.preferencesItem.target = self;
     self.preferencesItem.action = @selector(showPreferencesWindow);
+    
+    NSStatusBar *statusBar = [NSStatusBar systemStatusBar];
+    self.statusItem = [statusBar statusItemWithLength:NSVariableStatusItemLength];
+//    [statusItem image]
+    self.statusItem.button.image = [NSImage imageNamed:@"statusItemImage"];
 }
 
 

@@ -21,6 +21,8 @@
 @property ATPreferencesWindowController *preferencesWindowController;
 @property (nonatomic) ATDataModel *dataModel;
 
+@property (nonatomic) NSStatusItem *statusItem;
+
 @property (nonatomic) IBOutlet NSMenuItem *preferencesItem;
 
 @end
