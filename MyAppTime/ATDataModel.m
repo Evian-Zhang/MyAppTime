@@ -24,7 +24,7 @@
         _defaultManager = [NSFileManager defaultManager];
         self.timeRecordings = [NSMutableDictionary<NSString *, NSNumber *> dictionary];
         _refreshInterval = 1.0;
-        _writeBackInterval = 10.0;
+        _writeBackInterval = 1800.0;
         _isWritingBack = NO;
         _isRecording = NO;
         _defaultCenter = [NSNotificationCenter defaultCenter];

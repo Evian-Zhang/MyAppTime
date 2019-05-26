@@ -160,6 +160,7 @@
 }
 
 - (void)handleQuery {
+    [self.recordingDatas removeAllObjects];
     NSDate *startDate = self.startDatePicker.dateValue;
     NSDate *endDate = self.endDatePicker.dateValue;
     if ([startDate compare:endDate] == NSOrderedAscending) {
@@ -186,6 +187,11 @@
             [self.deletedDatas addObject:self.recordingDatas[selectedRow]];
             [self.recordingDatas removeObjectAtIndex:selectedRow];
             [self.rawDataTableView reloadData];
+            if (self.recordingDatas.count > selectedRow) {
+                [self.rawDataTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:selectedRow] byExtendingSelection:YES];
+            } else if (self.recordingDatas.count > selectedRow - 1) {
+                [self.rawDataTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:selectedRow - 1] byExtendingSelection:YES];
+            }
         }
     }
 }

@@ -108,6 +108,7 @@
     self.statusItemViewController = [[ATStatusItemViewController alloc] initWithNibName:@"ATStatusItemViewController" bundle:nil];
     [self.statusItemViewController initDataModel:self.dataModel andBundleID:ATTotalTime];
     self.popover.contentViewController = self.statusItemViewController;
+    [NSApp activateIgnoringOtherApps:YES];
     [self.popover showRelativeToRect:self.statusItem.button.bounds ofView:self.statusItem.button preferredEdge:NSRectEdgeMaxY];
 }
 

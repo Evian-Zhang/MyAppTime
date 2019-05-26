@@ -1,0 +1,21 @@
+
+/* Class = "NSButtonCell"; title = "quit the app"; ObjectID = "45j-HH-50s"; */
+"45j-HH-50s.title" = "退出 app";
+
+/* Class = "NSButtonCell"; title = "Show more..."; ObjectID = "NXg-Wq-uOF"; */
+"NXg-Wq-uOF.title" = "详细信息...";
+
+/* Class = "NSSegmentedCell"; fhz-kC-ghZ.ibShadowedLabels[0] = "Today"; ObjectID = "fhz-kC-ghZ"; */
+"fhz-kC-ghZ.ibShadowedLabels[0]" = "今天";
+
+/* Class = "NSSegmentedCell"; fhz-kC-ghZ.ibShadowedLabels[1] = "This week"; ObjectID = "fhz-kC-ghZ"; */
+"fhz-kC-ghZ.ibShadowedLabels[1]" = "本周";
+
+/* Class = "NSSegmentedCell"; fhz-kC-ghZ.ibShadowedLabels[2] = "This month"; ObjectID = "fhz-kC-ghZ"; */
+"fhz-kC-ghZ.ibShadowedLabels[2]" = "本月";
+
+/* Class = "NSSegmentedCell"; fhz-kC-ghZ.ibShadowedLabels[3] = "This year"; ObjectID = "fhz-kC-ghZ"; */
+"fhz-kC-ghZ.ibShadowedLabels[3]" = "今年";
+
+/* Class = "NSButtonCell"; title = "Preferences"; ObjectID = "rVt-Bg-4IE"; */
+"rVt-Bg-4IE.title" = "偏好设置";

@@ -1,0 +1,39 @@
+
+/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "63b-z3-xzu"; */
+"63b-z3-xzu.title" = "Table View Cell";
+
+/* Class = "NSWindow"; title = "MyAppTime"; ObjectID = "F0z-JX-Cv5"; */
+"F0z-JX-Cv5.title" = "MyAppTime";
+
+/* Class = "NSTableColumn"; headerCell.title = "Duration"; ObjectID = "fd2-Fm-SMS"; */
+"fd2-Fm-SMS.headerCell.title" = "时长";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "h7S-TT-nfq"; */
+"h7S-TT-nfq.title" = "Text Cell";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "syi-Hf-1c5"; */
+"syi-Hf-1c5.title" = "Text Cell";
+
+/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "t6w-YO-DgL"; */
+"t6w-YO-DgL.title" = "Table View Cell";
+
+/* Class = "NSTableColumn"; headerCell.title = "Application"; ObjectID = "wa5-gi-aBi"; */
+"wa5-gi-aBi.headerCell.title" = "应用程序";
+
+/* Class = "NSSegmentedCell"; yFx-6u-JRp.ibShadowedLabels[0] = "Today"; ObjectID = "yFx-6u-JRp"; */
+"yFx-6u-JRp.ibShadowedLabels[0]" = "今天";
+
+/* Class = "NSSegmentedCell"; yFx-6u-JRp.ibShadowedLabels[1] = "This week"; ObjectID = "yFx-6u-JRp"; */
+"yFx-6u-JRp.ibShadowedLabels[1]" = "本周";
+
+/* Class = "NSSegmentedCell"; yFx-6u-JRp.ibShadowedLabels[2] = "This month"; ObjectID = "yFx-6u-JRp"; */
+"yFx-6u-JRp.ibShadowedLabels[2]" = "本月";
+
+/* Class = "NSSegmentedCell"; yFx-6u-JRp.ibShadowedLabels[3] = "This year"; ObjectID = "yFx-6u-JRp"; */
+"yFx-6u-JRp.ibShadowedLabels[3]" = "今年";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "yYg-wh-1yQ"; */
+"yYg-wh-1yQ.title" = "Text Cell";
+
+/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "zAY-hR-RYA"; */
+"zAY-hR-RYA.title" = "Table View Cell";

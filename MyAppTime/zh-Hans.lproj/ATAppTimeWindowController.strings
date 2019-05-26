@@ -1,0 +1,15 @@
+
+/* Class = "NSWindow"; title = "Window"; ObjectID = "F0z-JX-Cv5"; */
+"F0z-JX-Cv5.title" = "Window";
+
+/* Class = "NSSegmentedCell"; x0K-hn-c11.ibShadowedLabels[0] = "Today"; ObjectID = "x0K-hn-c11"; */
+"x0K-hn-c11.ibShadowedLabels[0]" = "今天";
+
+/* Class = "NSSegmentedCell"; x0K-hn-c11.ibShadowedLabels[1] = "This week"; ObjectID = "x0K-hn-c11"; */
+"x0K-hn-c11.ibShadowedLabels[1]" = "本周";
+
+/* Class = "NSSegmentedCell"; x0K-hn-c11.ibShadowedLabels[2] = "This month"; ObjectID = "x0K-hn-c11"; */
+"x0K-hn-c11.ibShadowedLabels[2]" = "本月";
+
+/* Class = "NSSegmentedCell"; x0K-hn-c11.ibShadowedLabels[3] = "This year"; ObjectID = "x0K-hn-c11"; */
+"x0K-hn-c11.ibShadowedLabels[3]" = "今年";

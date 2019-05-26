@@ -1,0 +1,63 @@
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "11P-Ni-PuH"; */
+"11P-Ni-PuH.title" = "Text Cell";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "3ex-9j-Pci"; */
+"3ex-9j-Pci.title" = "Text Cell";
+
+/* Class = "NSTableColumn"; headerCell.title = "Date"; ObjectID = "4lh-tb-hxL"; */
+"4lh-tb-hxL.headerCell.title" = "日期";
+
+/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "6tw-4a-VMS"; */
+"6tw-4a-VMS.title" = "Table View Cell";
+
+/* Class = "NSWindow"; title = "Preferences"; ObjectID = "F0z-JX-Cv5"; */
+"F0z-JX-Cv5.title" = "偏好设置";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "Le3-Fd-TVY"; */
+"Le3-Fd-TVY.title" = "Text Cell";
+
+/* Class = "NSButtonCell"; title = "with bundle ID:"; ObjectID = "OXA-mq-YtB"; */
+"OXA-mq-YtB.title" = "使用 bundle ID:";
+
+/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "VQ4-Vb-ZHA"; */
+"VQ4-Vb-ZHA.title" = "Table View Cell";
+
+/* Class = "NSTableColumn"; headerCell.title = "Bundle ID"; ObjectID = "WKR-na-hAx"; */
+"WKR-na-hAx.headerCell.title" = "Bundle ID";
+
+/* Class = "NSSegmentedCell"; YEp-7s-sLz.ibShadowedLabels[0] = "Basic settings"; ObjectID = "YEp-7s-sLz"; */
+"YEp-7s-sLz.ibShadowedLabels[0]" = "基础设置";
+
+/* Class = "NSSegmentedCell"; YEp-7s-sLz.ibShadowedLabels[1] = "Ignored bundleIDs"; ObjectID = "YEp-7s-sLz"; */
+"YEp-7s-sLz.ibShadowedLabels[1]" = "忽略的 bundle ID";
+
+/* Class = "NSSegmentedCell"; YEp-7s-sLz.ibShadowedLabels[2] = "raw data"; ObjectID = "YEp-7s-sLz"; */
+"YEp-7s-sLz.ibShadowedLabels[2]" = "原始数据";
+
+/* Class = "NSTextFieldCell"; title = "to"; ObjectID = "Zbj-xt-Gdr"; */
+"Zbj-xt-Gdr.title" = "至";
+
+/* Class = "NSButtonCell"; title = "OK"; ObjectID = "cjF-3k-Tbl"; */
+"cjF-3k-Tbl.title" = "确定";
+
+/* Class = "NSButtonCell"; title = "Start at login (Restart needed)"; ObjectID = "dAe-eL-dsq"; */
+"dAe-eL-dsq.title" = "开机时启动（需要重启程序）";
+
+/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "fzn-pV-9xY"; */
+"fzn-pV-9xY.title" = "Table View Cell";
+
+/* Class = "NSTableColumn"; headerCell.title = "Duration(s)"; ObjectID = "gFI-Fc-Ccf"; */
+"gFI-Fc-Ccf.headerCell.title" = "时长(s)";
+
+/* Class = "NSButtonCell"; title = "Query"; ObjectID = "gpI-PB-97j"; */
+"gpI-PB-97j.title" = "查询";
+
+/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "pEZ-5X-r2X"; */
+"pEZ-5X-r2X.title" = "Table View Cell";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "vHV-T7-FdM"; */
+"vHV-T7-FdM.title" = "Text Cell";
+
+/* Class = "NSButtonCell"; title = "Cancel"; ObjectID = "ybd-mn-j09"; */
+"ybd-mn-j09.title" = "取消";
