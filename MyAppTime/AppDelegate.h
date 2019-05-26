@@ -20,6 +20,7 @@
 
 @property ATMainWindowController *mainWindowController;
 @property ATPreferencesWindowController *preferencesWindowController;
+@property ATStatusItemViewController *statusItemViewController;
 @property (nonatomic) ATDataModel *dataModel;
 
 @property (nonatomic) NSStatusItem *statusItem;

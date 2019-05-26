@@ -87,17 +87,6 @@
         [bundleIDs addObject:ATTotalTime];
     }
     for (NSString *bundleID in bundleIDs) {
-        NSString *localizedName;
-        if ([bundleID isEqualToString:ATTotalTime]) {
-            localizedName = NSLocalizedString(@"Total", @"Name of ATTotalTime");
-        } else {
-            NSBundle *bundle = [NSBundle bundleWithURL:[_sharedWorkspace URLForApplicationWithBundleIdentifier:bundleID]];
-            localizedName = bundle.localizedInfoDictionary[@"CFBundleDisplayName"];
-            if (!localizedName) {
-                localizedName = bundle.infoDictionary[@"CFBundleName"];
-            }
-        }
-        NSLog(@"%@", localizedName);
         NSNumber *duration = [self.timeRecordings objectForKey:bundleID];
         if (!duration) {
             duration = [NSNumber numberWithDouble:0.0];
@@ -105,7 +94,6 @@
         duration = [NSNumber numberWithDouble:duration.doubleValue + _refreshInterval];
         [self.timeRecordings setObject:duration forKey:bundleID];
     }
-    NSLog(@"%@", self.timeRecordings);
     _isRecording = NO;
 }
 
@@ -117,34 +105,6 @@
     _isWritingBack = YES;
     NSArray<NSString *> *bundleIDs = [self.bundleIDs copy];
     NSDate *now = [NSDate date];
-//    NSCalendar *calendar = [NSCalendar currentCalendar];
-//    NSDate *today = [calendar startOfDayForDate:now];
-//    NSDate *tomorrow = [calendar dateByAddingUnit:NSCalendarUnitDay value:1 toDate:today options:NSCalendarWrapComponents];
-//    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"AIRecordingData"];
-//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"date >= %@ AND date < %@", today, tomorrow];
-//    request.predicate = predicate;
-//    NSArray<AIRecordingData *> *todayRecordings = [self.persistentContainer.viewContext executeFetchRequest:request error:nil];
-//    for (NSString *bundleID in bundleIDs) {
-//        BOOL hasRecord = NO;
-//        for (AIRecordingData *recordingData in todayRecordings) {
-//            if ([recordingData.bundleID isEqualToString:bundleID]) {
-//                recordingData.date = now;
-//                recordingData.duration = [self.timeRecordings objectForKey:bundleID].doubleValue;
-//                hasRecord = YES;
-//                break;
-//            }
-//        }
-//        if (!hasRecord) {
-//            AIRecordingData *recordingData = [NSEntityDescription  insertNewObjectForEntityForName:@"AIRecordingData"  inManagedObjectContext:self.persistentContainer.viewContext];
-//            recordingData.bundleID = bundleID;
-//            recordingData.date = now;
-//            recordingData.duration = [self.timeRecordings objectForKey:bundleID].doubleValue;
-//        }
-//    }
-//    NSError *error;
-//    if (![self.persistentContainer.viewContext save:&error]) {
-//        NSLog(@"%@", error);
-//    }
     for (NSString *bundleID in bundleIDs) {
         if ([self.ignoredBundleIDs containsObject:bundleID]) {
             continue;
@@ -265,6 +225,33 @@
     request.predicate = predicate;
     NSArray<AIRecordingData *> *thisYearRecordings = [self.persistentContainer.viewContext executeFetchRequest:request error:nil];
     return [thisYearRecordings copy];
+}
+
+- (NSArray<AIRecordingData *> *)recordingDatasFrom:(NSDate *)startDate to:(NSDate *)endDate withBundleID:(nullable NSString *)bundleID {
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"AIRecordingData"];
+    NSPredicate *predicate;
+    if (bundleID) {
+        predicate = [NSPredicate predicateWithFormat:@"date >= %@ AND date < %@ AND bundleID == %@", startDate, endDate, bundleID];
+    } else {
+        predicate = [NSPredicate predicateWithFormat:@"date >= %@ AND date < %@", startDate, endDate];
+    }
+    request.predicate = predicate;
+    NSArray<AIRecordingData *> *requestedRecordings = [self.persistentContainer.viewContext executeFetchRequest:request error:nil];
+    if (requestedRecordings) {
+        return requestedRecordings;
+    } else {
+        return [NSArray<AIRecordingData *> array];
+    }
+}
+
+- (void)removeRecordingDatas:(NSMutableArray<AIRecordingData *> *)recordingDatas {
+    for (AIRecordingData *recordingData in recordingDatas) {
+        [self.persistentContainer.viewContext deleteObject:recordingData];
+    }
+    NSError *error;
+    if (![self.persistentContainer.viewContext save:&error]) {
+        NSLog(@"%@", error);
+    }
 }
 
 @end

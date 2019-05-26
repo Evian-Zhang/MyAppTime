@@ -94,19 +94,20 @@
 - (void)showPreferencesWindow {
     if (!self.hasPreferencesWindow) {
         self.preferencesWindowController = [[ATPreferencesWindowController alloc] initWithWindowNibName:@"ATPreferencesWindowController"];
+        self.preferencesWindowController.dataModel = self.dataModel;
     }
+    [NSApp activateIgnoringOtherApps:YES];
     [self.preferencesWindowController showWindow:nil];
+    [self.popover close];
     self.hasPreferencesWindow = YES;
 }
 
 - (void)showPopover {
-    if (!self.popover) {
-        self.popover = [[NSPopover alloc] init];
-    }
+    self.popover = [[NSPopover alloc] init];
     self.popover.behavior = NSPopoverBehaviorTransient;
-    ATStatusItemViewController *statusItemViewController = [[ATStatusItemViewController alloc] initWithNibName:@"ATStatusItemViewController" bundle:nil];
-    [statusItemViewController initDataModel:self.dataModel andBundleID:ATTotalTime];
-    self.popover.contentViewController = statusItemViewController;
+    self.statusItemViewController = [[ATStatusItemViewController alloc] initWithNibName:@"ATStatusItemViewController" bundle:nil];
+    [self.statusItemViewController initDataModel:self.dataModel andBundleID:ATTotalTime];
+    self.popover.contentViewController = self.statusItemViewController;
     [self.popover showRelativeToRect:self.statusItem.button.bounds ofView:self.statusItem.button preferredEdge:NSRectEdgeMaxY];
 }
 
@@ -115,7 +116,9 @@
         self.mainWindowController = [[ATMainWindowController alloc] initWithWindowNibName:@"ATMainWindowController"];
         self.mainWindowController.dataModel = self.dataModel;
     }
+    [NSApp activateIgnoringOtherApps:YES];
     [self.mainWindowController showWindow:nil];
+    [self.popover close];
     self.hasMainWindow = YES;
 }
 

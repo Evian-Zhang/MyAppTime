@@ -23,7 +23,6 @@
         self.recordingDurations = [NSMutableDictionary<NSString *, ATTimeUnit *> dictionary];
         self.recordingBundleIDs = [NSArray<NSString *> array];
         self.appTimeWindowControllers = [NSMutableArray<ATAppTimeWindowController *> array];
-        self.hasWindow = NO;
         _currentDisplayMode = ATCurrentModeDisplayDay;
     }
     return self;
@@ -365,7 +364,18 @@
     NSString *cellText;
     if (tableColumn == tableView.tableColumns[0]) {
         cellIdentifier = @"ATApplicationCellIdentifier";
-        cellText = self.recordingBundleIDs[row];
+        NSString *bundleID = self.recordingBundleIDs[row];
+        NSString *localizedName;
+        if ([bundleID isEqualToString:ATTotalTime]) {
+            localizedName = NSLocalizedString(@"Total", @"Name of ATTotalTime");
+        } else {
+            NSBundle *bundle = [NSBundle bundleWithURL:[[NSWorkspace sharedWorkspace] URLForApplicationWithBundleIdentifier:bundleID]];
+            localizedName = bundle.localizedInfoDictionary[@"CFBundleDisplayName"];
+            if (!localizedName) {
+                localizedName = bundle.infoDictionary[@"CFBundleName"];
+            }
+        }
+        cellText = localizedName;
     } else if (tableColumn == tableView.tableColumns[1]) {
         cellIdentifier = @"ATDurationCellIdentifier";
         cellText = [[self.recordingDurations objectForKey:self.recordingBundleIDs[row]] description];
@@ -377,7 +387,6 @@
         tableCellView.textField.stringValue = cellText;
     }
     if (tableColumn == tableView.tableColumns[2]) {
-        NSRect buttonRect = tableCellView.frame;
         NSButton *displayButton = [NSButton buttonWithTitle:NSLocalizedString(@"Show detail...", @"button description in table") target:nil action:@selector(displayCell:)];
         [displayButton setTag:row];
         NSArray<NSView *> *subviews = tableCellView.subviews.copy;

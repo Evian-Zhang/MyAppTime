@@ -101,7 +101,7 @@
             }
         } else {
             if (self.second > 0) {
-                [description appendFormat:@"0m%ds", self.second];
+                [description appendFormat:@"00m%ds", self.second];
             }
         }
     } else {
@@ -114,7 +114,7 @@
             if (self.second > 0) {
                 [description appendFormat:@"%ds", self.second];
             } else {
-                [description appendString:@"0s"];
+                [description appendString:@"00s"];
             }
         }
     }

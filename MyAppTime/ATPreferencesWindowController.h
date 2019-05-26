@@ -7,10 +7,13 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "ATDataModel.h"
+#import "AIRecordingData+CoreDataClass.h"
+#import "AIRecordingData+CoreDataProperties.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ATPreferencesWindowController : NSWindowController <NSWindowDelegate>
+@interface ATPreferencesWindowController : NSWindowController <NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource>
 
 typedef enum ATPreferencesWindowDisplayMode {
     ATPreferencesWindowDisplayBasicSettings,
@@ -19,12 +22,31 @@ typedef enum ATPreferencesWindowDisplayMode {
 } ATPreferencesWindowDisplayMode;
 
 @property (nonatomic) NSUserDefaults *userDefaults;
+@property (nonatomic) ATDataModel *dataModel;
 @property (nonatomic) BOOL wantsStartAtLogin;
+@property (nonatomic) NSMutableArray<NSString *> *ignoredBundleIDs;
+@property (nonatomic) NSMutableArray<AIRecordingData *> *recordingDatas;
+@property (nonatomic) NSMutableArray<AIRecordingData *> *deletedDatas;
 
 @property (nonatomic) IBOutlet NSSegmentedControl *segmentedControl;
 @property (nonatomic) IBOutlet NSView *displayView;
-@property (nonatomic) IBOutlet NSView *basicSettingView;
-@property (nonatomic) IBOutlet NSButton *startAtLoginBox;
+
+@property (nonatomic, weak) IBOutlet NSView *basicSettingView;
+@property (nonatomic, weak) IBOutlet NSButton *startAtLoginBox;
+
+@property (nonatomic, weak) IBOutlet NSView *ignoredBundleIDsView;
+@property (nonatomic, weak) IBOutlet NSTableView *ignoredBundleIDsTableView;
+@property (nonatomic, weak) IBOutlet NSSegmentedControl *ignoredBundleIDsSegmentedControl;
+
+@property (nonatomic, weak) IBOutlet NSView *rawDataView;
+@property (nonatomic, weak) IBOutlet NSDatePicker *startDatePicker;
+@property (nonatomic, weak) IBOutlet NSDatePicker *endDatePicker;
+@property (nonatomic, weak) IBOutlet NSButton *hasBundleIDBox;
+@property (nonatomic, weak) IBOutlet NSTextField *bundleIDTextField;
+@property (nonatomic, weak) IBOutlet NSButton *queryButton;
+@property (nonatomic, weak) IBOutlet NSTableView *rawDataTableView;
+@property (nonatomic, weak) IBOutlet NSSegmentedControl *rawDataSegmentedControl;
+
 @property (nonatomic) IBOutlet NSButton *okButton;
 @property (nonatomic) IBOutlet NSButton *cancelButton;
 

@@ -54,6 +54,10 @@
     // Do view setup here.
 }
 
+- (void)viewDidAppear {
+    
+}
+
 - (void)handleShowMore {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ATStatusItemShowMore" object:nil];
 }

@@ -34,7 +34,17 @@
     [super windowDidLoad];
     [self changeDataSourceToTodayRecordings];
     self.window.delegate = self;
-    self.window.title = self.bundleID;
+    NSString *localizedName;
+    if ([self.bundleID isEqualToString:ATTotalTime]) {
+        localizedName = NSLocalizedString(@"Total", @"Name of ATTotalTime");
+    } else {
+        NSBundle *bundle = [NSBundle bundleWithURL:[[NSWorkspace sharedWorkspace] URLForApplicationWithBundleIdentifier:self.bundleID]];
+        localizedName = bundle.localizedInfoDictionary[@"CFBundleDisplayName"];
+        if (!localizedName) {
+            localizedName = bundle.infoDictionary[@"CFBundleName"];
+        }
+    }
+    self.window.title = localizedName;
     
     self.barChartView.delegate = self;
     self.barChartView.dataSource = self;

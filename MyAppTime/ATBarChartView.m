@@ -31,7 +31,7 @@
     _space = 10.0;
     _bottomSpace = 40.0;
     _topSpace = 20.0;
-    _rightSpace = 40.0;
+    _rightSpace = 70.0;
     _backgroundColor = [NSColor colorNamed:@"ATBackgroundColor"];
     _barColor = [NSColor colorNamed:@"ATBarColor"];
     _commentColor = [NSColor colorNamed:@"ATCommentColor"];
@@ -195,7 +195,7 @@
     [_yAxis.layer addSublayer:lineLayer];
     
     CATextLayer *textLayer = [CATextLayer layer];
-    [textLayer setFrame:CGRectMake(5, self.frame.size.height - _topSpace - 15, 30, 15)];
+    [textLayer setFrame:CGRectMake(5, self.frame.size.height - _topSpace - 15, 70, 15)];
     textLayer.alignmentMode = kCAAlignmentLeft;
     textLayer.string = [self maxTimeUnitFrom:0 to:_numberOfBars].shortDescription;
     textLayer.fontSize = 10.0;
@@ -241,7 +241,6 @@
         for (NSUInteger i = 0; i < _numberOfBars; i++) {
             [self drawEntryAtIndex:i withMaxHeight:maxHeight];
         }
-        
     }
 }
 
@@ -261,16 +260,13 @@
 }
 
 - (ATTimeUnit *)maxTimeUnitFrom:(NSUInteger)start to:(NSUInteger)end {
-    float max = 0;
-    NSUInteger index = 0;
+    ATTimeUnit *maxTimeUnit = [[ATTimeUnit alloc] init];
     for (NSUInteger barIndex = start; barIndex < end; barIndex++) {
-        float height = [_dataSource barChartView:self timeUnitForBarAtIndex:barIndex].floatValue;
-        if (max < height) {
-            max = height;
-            index = barIndex;
+        ATTimeUnit *tmpTimeUnit = [_dataSource barChartView:self timeUnitForBarAtIndex:barIndex];
+        if ([maxTimeUnit compare:tmpTimeUnit] == NSOrderedAscending) {
+            maxTimeUnit = tmpTimeUnit;
         }
     }
-    ATTimeUnit *maxTimeUnit = [_dataSource barChartView:self timeUnitForBarAtIndex:index];
     if (maxTimeUnit.second == 0 && maxTimeUnit.minute == 0 && maxTimeUnit.hour == 0) {
         maxTimeUnit.minute = 30;
     }
