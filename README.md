@@ -9,11 +9,11 @@
 
 ## 使用截图
 
-![状态栏图标](https://github.com/Evian-Zhang/MyAppTime/tree/master/Readme_assets/popover.png)
+![状态栏图标](Readme_assets/popover.png)
 
-![各应用使用时长总览](https://github.com/Evian-Zhang/MyAppTime/tree/master/Readme_assets/mainWindow.png)
+![各应用使用时长总览](Readme_assets/mainWindow.png)
 
-![各应用使用时长分览](https://github.com/Evian-Zhang/MyAppTime/tree/master/Readme_assets/appWindow.png)
+![各应用使用时长分览](Readme_assets/appWindow.png)
 
 ## Bug 反馈
 
@@ -23,7 +23,7 @@
 
 您对我的每一分捐赠，都是对我莫大的鼓励！
 
-![支付宝](https://github.com/Evian-Zhang/MyAppTime/tree/master/Readme_assets/alipay.jpg)
+![支付宝](Readme_assets/alipay.jpg)
 
-![微信](https://github.com/Evian-Zhang/MyAppTime/tree/master/Readme_assets/wechat.jpg)
+![微信](Readme_assets/wechat.jpg)
 
