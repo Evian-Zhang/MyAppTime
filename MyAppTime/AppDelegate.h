@@ -25,6 +25,9 @@
 @property (nonatomic) NSStatusItem *statusItem;
 @property (nonatomic) NSPopover *popover;
 
+@property (nonatomic) BOOL hasMainWindow;
+@property (nonatomic) BOOL hasPreferencesWindow;
+
 @property (nonatomic) IBOutlet NSMenuItem *preferencesItem;
 
 @end

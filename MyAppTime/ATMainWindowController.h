@@ -34,6 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) NSMutableDictionary<NSString *, ATTimeUnit *> *recordingDurations;
 @property (nonatomic) NSArray<NSString *> *recordingBundleIDs;
 @property (nonatomic) NSMutableArray<ATAppTimeWindowController *> *appTimeWindowControllers;
+@property (nonatomic) BOOL hasWindow;
 
 @end
 

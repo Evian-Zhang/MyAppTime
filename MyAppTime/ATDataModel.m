@@ -146,6 +146,9 @@
 //        NSLog(@"%@", error);
 //    }
     for (NSString *bundleID in bundleIDs) {
+        if ([self.ignoredBundleIDs containsObject:bundleID]) {
+            continue;
+        }
         AIRecordingData *recordingData = [NSEntityDescription insertNewObjectForEntityForName:@"AIRecordingData" inManagedObjectContext:self.persistentContainer.viewContext];
         recordingData.bundleID = bundleID;
         recordingData.date = now;

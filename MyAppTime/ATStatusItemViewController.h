@@ -24,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) IBOutlet NSSegmentedControl *segmentedControl;
 @property (nonatomic) IBOutlet ATBarChartView *barChartView;
 @property (nonatomic) IBOutlet NSButton *showMoreButton;
+@property (nonatomic) IBOutlet NSButton *preferencesButton;
 @property (nonatomic) IBOutlet NSButton *quitButton;
 
 - (void)initDataModel:(ATDataModel *)dataModel andBundleID:(NSString *)bundleID;

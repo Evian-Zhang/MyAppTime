@@ -38,12 +38,16 @@
     
     self.barChartView.delegate = self;
     self.barChartView.dataSource = self;
+    [self.barChartView reloadData];
     
     self.segmentedControl.target = self;
     self.segmentedControl.action = @selector(segmentedControlSelectionDidChange);
     
     self.showMoreButton.target = self;
     self.showMoreButton.action = @selector(handleShowMore);
+    
+    self.preferencesButton.target = self;
+    self.preferencesButton.action = @selector(handlePreferences);
     
     self.quitButton.target = self;
     self.quitButton.action = @selector(handleQuit);
@@ -52,6 +56,10 @@
 
 - (void)handleShowMore {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ATStatusItemShowMore" object:nil];
+}
+
+- (void)handlePreferences {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"ATStatusItemPreferences" object:nil];
 }
 
 - (void)handleQuit {

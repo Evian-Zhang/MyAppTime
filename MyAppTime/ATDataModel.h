@@ -24,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSMutableArray<NSString *> *bundleIDs;
 @property (nonatomic) NSMutableDictionary<NSString *, NSNumber *> *timeRecordings;
 @property (nonatomic, readonly) NSArray<AIRecordingData *> *requiredRecordings;
+@property (nonatomic) NSArray<NSString *> *ignoredBundleIDs;
 
 @property (nonatomic, strong) dispatch_queue_t dataModelQueue;
 @property (nonatomic, strong) dispatch_source_t refreshTimer;

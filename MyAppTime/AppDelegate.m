@@ -22,16 +22,12 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     self.dataModel = [[ATDataModel alloc] init];
     self.dataModel.persistentContainer = self.persistentContainer;
-    [self.dataModel addTimer];
-    
-    _defaultManager = [NSFileManager defaultManager];
     
     [self handleUserDefaults];
     
-//    self.mainWindowController = [[ATMainWindowController alloc] initWithWindowNibName:@"ATMainWindowController"];
-//    self.mainWindowController.dataModel = self.dataModel;
-//    [self.mainWindowController.window center];
-//    [self.mainWindowController.window orderFront:nil];
+    [self.dataModel addTimer];
+    
+    _defaultManager = [NSFileManager defaultManager];
     
     self.preferencesItem.target = self;
     self.preferencesItem.action = @selector(showPreferencesWindow);
@@ -44,6 +40,15 @@
     self.statusItem.button.image = statusItemImage;
     self.statusItem.button.target = self;
     self.statusItem.button.action = @selector(showPopover);
+    
+    self.hasMainWindow = NO;
+    self.hasPreferencesWindow = NO;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleStatusItemShowMore) name:@"ATStatusItemShowMore" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleStatusItemPreferences) name:@"ATStatusItemPreferences" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleStatusItemQuit) name:@"ATStatusItemQuit" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleMainWindowClose) name:@"ATMainWindowClose" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handlePreferencesWindowClose) name:@"ATPreferencesWindowClose" object:nil];
 }
 
 
@@ -53,7 +58,10 @@
 
 - (void)handleUserDefaults {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary<NSString *, id> *registrationDictionary = @{@"wantsStartAtLogin":@YES};
+    
+    NSArray<NSString *> *initialIgnoredBundleIDs = @[@"com.apple.Stickies", @"com.zhang.evian.MyAppTime"];
+    
+    NSDictionary<NSString *, id> *registrationDictionary = @{@"wantsStartAtLogin":@YES, @"ignoredBundleIDs":initialIgnoredBundleIDs};
     [userDefaults registerDefaults:registrationDictionary];
     [userDefaults synchronize];
     
@@ -79,19 +87,16 @@
             }
         }
     }
+    
+    self.dataModel.ignoredBundleIDs = [userDefaults arrayForKey:@"ignoredBundleIDs"];
 }
 
 - (void)showPreferencesWindow {
-    if (self.preferencesWindowController.isWindowLoaded) {
-        [self.preferencesWindowController showWindow:nil];
-//        [self.preferencesWindowController.window makeKeyWindow];
-    } else {
-        if (!self.preferencesWindowController) {
-            self.preferencesWindowController = [[ATPreferencesWindowController alloc] initWithWindowNibName:@"ATPreferencesWindowController"];
-        }
-        [self.preferencesWindowController showWindow:nil];
-//        [self.preferencesWindowController.window orderFront:nil];
+    if (!self.hasPreferencesWindow) {
+        self.preferencesWindowController = [[ATPreferencesWindowController alloc] initWithWindowNibName:@"ATPreferencesWindowController"];
     }
+    [self.preferencesWindowController showWindow:nil];
+    self.hasPreferencesWindow = YES;
 }
 
 - (void)showPopover {
@@ -99,8 +104,35 @@
         self.popover = [[NSPopover alloc] init];
     }
     self.popover.behavior = NSPopoverBehaviorTransient;
-    self.popover.contentViewController = [[ATStatusItemViewController alloc] initWithNibName:@"ATStatusItemViewController" bundle:nil];
+    ATStatusItemViewController *statusItemViewController = [[ATStatusItemViewController alloc] initWithNibName:@"ATStatusItemViewController" bundle:nil];
+    [statusItemViewController initDataModel:self.dataModel andBundleID:ATTotalTime];
+    self.popover.contentViewController = statusItemViewController;
     [self.popover showRelativeToRect:self.statusItem.button.bounds ofView:self.statusItem.button preferredEdge:NSRectEdgeMaxY];
+}
+
+- (void)handleStatusItemShowMore {
+    if (!self.hasMainWindow) {
+        self.mainWindowController = [[ATMainWindowController alloc] initWithWindowNibName:@"ATMainWindowController"];
+        self.mainWindowController.dataModel = self.dataModel;
+    }
+    [self.mainWindowController showWindow:nil];
+    self.hasMainWindow = YES;
+}
+
+- (void)handleStatusItemPreferences {
+    [self showPreferencesWindow];
+}
+
+- (void)handleStatusItemQuit {
+    [[NSApplication sharedApplication] terminate:nil];
+}
+
+- (void)handleMainWindowClose {
+    self.hasMainWindow = NO;
+}
+
+- (void)handlePreferencesWindowClose {
+    self.hasPreferencesWindow = NO;
 }
 
 #pragma mark - Core Data stack

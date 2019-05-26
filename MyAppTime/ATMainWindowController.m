@@ -23,6 +23,7 @@
         self.recordingDurations = [NSMutableDictionary<NSString *, ATTimeUnit *> dictionary];
         self.recordingBundleIDs = [NSArray<NSString *> array];
         self.appTimeWindowControllers = [NSMutableArray<ATAppTimeWindowController *> array];
+        self.hasWindow = NO;
         _currentDisplayMode = ATCurrentModeDisplayDay;
     }
     return self;
@@ -34,6 +35,7 @@
     self.barChartView.delegate = self;
     self.barChartView.dataSource = self;
     [self adjustBarChartViewClipView];
+    [self.barChartView reloadData];
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -41,6 +43,8 @@
     
     self.segmentedControl.target = self;
     self.segmentedControl.action = @selector(segmentedControlSelectionDidChange);
+    
+    self.window.delegate = self;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAppTimeWindowHasClosed:) name:@"ATAppTimeWindowHasClosed" object:nil];
     // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
@@ -55,6 +59,10 @@
 
 - (void)windowDidResize:(NSNotification *)notification {
     [self.barChartView reloadData];
+}
+
+- (void)windowWillClose:(NSNotification *)notification {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"ATMainWindowClose" object:nil];
 }
 
 #pragma mark - today's datasource

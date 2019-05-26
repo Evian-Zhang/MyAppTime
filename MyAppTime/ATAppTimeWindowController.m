@@ -38,6 +38,7 @@
     
     self.barChartView.delegate = self;
     self.barChartView.dataSource = self;
+    [self.barChartView reloadData];
     
     self.segmentedControl.target = self;
     self.segmentedControl.action = @selector(segmentedControlSelectionDidChange);

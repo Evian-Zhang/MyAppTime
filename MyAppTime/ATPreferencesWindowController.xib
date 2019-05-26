@@ -7,8 +7,11 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="ATPreferencesWindowController">
             <connections>
+                <outlet property="basicSettingView" destination="mON-P8-1Nv" id="6qV-X2-zrA"/>
                 <outlet property="cancelButton" destination="t12-UQ-69Q" id="9JG-i9-fA8"/>
+                <outlet property="displayView" destination="0gm-cJ-gQe" id="O8a-J2-zia"/>
                 <outlet property="okButton" destination="5TB-R9-Gvq" id="aPQ-Vb-wgl"/>
+                <outlet property="segmentedControl" destination="PfD-O0-wku" id="XnP-n2-rWg"/>
                 <outlet property="startAtLoginBox" destination="FYg-H7-uDt" id="pXI-Q8-FMn"/>
                 <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
             </connections>
@@ -24,14 +27,6 @@
                 <rect key="frame" x="0.0" y="0.0" width="752" height="490"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FYg-H7-uDt">
-                        <rect key="frame" x="100" y="396" width="206" height="18"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="Start at login (Restart needed)" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="dAe-eL-dsq">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                    </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5TB-R9-Gvq">
                         <rect key="frame" x="668" y="13" width="59" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -54,6 +49,22 @@ Gw
 </string>
                         </buttonCell>
                     </button>
+                    <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PfD-O0-wku">
+                        <rect key="frame" x="212" y="447" width="328" height="24"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="YEp-7s-sLz">
+                            <font key="font" metaFont="system"/>
+                            <segments>
+                                <segment label="Basic settings" selected="YES"/>
+                                <segment label="Ignored bundleIDs" tag="1"/>
+                                <segment label="raw data"/>
+                            </segments>
+                        </segmentedCell>
+                    </segmentedControl>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0gm-cJ-gQe">
+                        <rect key="frame" x="20" y="61" width="712" height="380"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    </customView>
                 </subviews>
             </view>
             <connections>
@@ -61,5 +72,22 @@ Gw
             </connections>
             <point key="canvasLocation" x="502" y="153"/>
         </window>
+        <customView id="mON-P8-1Nv">
+            <rect key="frame" x="0.0" y="0.0" width="712" height="380"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FYg-H7-uDt">
+                    <rect key="frame" x="253" y="181" width="206" height="18"/>
+                    <buttonCell key="cell" type="check" title="Start at login (Restart needed)" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="dAe-eL-dsq">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                </button>
+            </subviews>
+            <constraints>
+                <constraint firstItem="FYg-H7-uDt" firstAttribute="centerX" secondItem="mON-P8-1Nv" secondAttribute="centerX" id="Ul4-6g-mGT"/>
+                <constraint firstItem="FYg-H7-uDt" firstAttribute="centerY" secondItem="mON-P8-1Nv" secondAttribute="centerY" id="e4E-aC-fH1"/>
+            </constraints>
+        </customView>
     </objects>
 </document>
