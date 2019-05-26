@@ -49,8 +49,10 @@
             pid_t pid = pidString.intValue;
             NSRunningApplication *runningApplication = [NSRunningApplication runningApplicationWithProcessIdentifier:pid];
             NSString *bundleID = runningApplication.bundleIdentifier;
-            if (![bundleIDs containsObject:bundleID]) {
-                [bundleIDs addObject:bundleID];
+            if (bundleID) {
+                if (![bundleIDs containsObject:bundleID]) {
+                    [bundleIDs addObject:bundleID];
+                }
             }
         }
     }
