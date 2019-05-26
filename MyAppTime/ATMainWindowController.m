@@ -61,6 +61,11 @@
 }
 
 - (void)windowWillClose:(NSNotification *)notification {
+    NSArray<ATAppTimeWindowController *> *tmpAppTimeWindowControllers = self.appTimeWindowControllers.copy;
+    for (ATAppTimeWindowController *appTimeWindowController in tmpAppTimeWindowControllers) {
+        [appTimeWindowController close];
+        [self.appTimeWindowControllers removeObject:appTimeWindowController];
+    }
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ATMainWindowClose" object:nil];
 }
 
