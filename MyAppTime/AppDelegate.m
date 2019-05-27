@@ -27,6 +27,8 @@
     
     [self.dataModel addTimer];
     
+    [NSProcessInfo.processInfo disableSuddenTermination];
+    
     _defaultManager = [NSFileManager defaultManager];
     
     self.preferencesItem.target = self;
@@ -52,8 +54,18 @@
 }
 
 
-- (void)applicationWillTerminate:(NSNotification *)aNotification {
+//- (void)applicationWillTerminate:(NSNotification *)aNotification {
+//    [self.dataModel writeBack];
+//}
+
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleWriteBack) name:@"ATWriteBackFinished" object:nil];
     [self.dataModel writeBack];
+    return NSTerminateLater;
+}
+
+- (void)handleWriteBack {
+    [[NSApplication sharedApplication] replyToApplicationShouldTerminate:YES];
 }
 
 - (void)handleUserDefaults {
@@ -193,46 +205,46 @@
     return self.persistentContainer.viewContext.undoManager;
 }
 
-- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
-    // Save changes in the application's managed object context before the application terminates.
-    NSManagedObjectContext *context = self.persistentContainer.viewContext;
-
-    if (![context commitEditing]) {
-        NSLog(@"%@:%@ unable to commit editing to terminate", [self class], NSStringFromSelector(_cmd));
-        return NSTerminateCancel;
-    }
-    
-    if (!context.hasChanges) {
-        return NSTerminateNow;
-    }
-    
-    NSError *error = nil;
-    if (![context save:&error]) {
-
-        // Customize this code block to include application-specific recovery steps.
-        BOOL result = [sender presentError:error];
-        if (result) {
-            return NSTerminateCancel;
-        }
-
-        NSString *question = NSLocalizedString(@"Could not save changes while quitting. Quit anyway?", @"Quit without saves error question message");
-        NSString *info = NSLocalizedString(@"Quitting now will lose any changes you have made since the last successful save", @"Quit without saves error question info");
-        NSString *quitButton = NSLocalizedString(@"Quit anyway", @"Quit anyway button title");
-        NSString *cancelButton = NSLocalizedString(@"Cancel", @"Cancel button title");
-        NSAlert *alert = [[NSAlert alloc] init];
-        [alert setMessageText:question];
-        [alert setInformativeText:info];
-        [alert addButtonWithTitle:quitButton];
-        [alert addButtonWithTitle:cancelButton];
-
-        NSInteger answer = [alert runModal];
-        
-        if (answer == NSAlertSecondButtonReturn) {
-            return NSTerminateCancel;
-        }
-    }
-
-    return NSTerminateNow;
-}
+//- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
+//    // Save changes in the application's managed object context before the application terminates.
+//    NSManagedObjectContext *context = self.persistentContainer.viewContext;
+//
+//    if (![context commitEditing]) {
+//        NSLog(@"%@:%@ unable to commit editing to terminate", [self class], NSStringFromSelector(_cmd));
+//        return NSTerminateCancel;
+//    }
+//
+//    if (!context.hasChanges) {
+//        return NSTerminateNow;
+//    }
+//
+//    NSError *error = nil;
+//    if (![context save:&error]) {
+//
+//        // Customize this code block to include application-specific recovery steps.
+//        BOOL result = [sender presentError:error];
+//        if (result) {
+//            return NSTerminateCancel;
+//        }
+//
+//        NSString *question = NSLocalizedString(@"Could not save changes while quitting. Quit anyway?", @"Quit without saves error question message");
+//        NSString *info = NSLocalizedString(@"Quitting now will lose any changes you have made since the last successful save", @"Quit without saves error question info");
+//        NSString *quitButton = NSLocalizedString(@"Quit anyway", @"Quit anyway button title");
+//        NSString *cancelButton = NSLocalizedString(@"Cancel", @"Cancel button title");
+//        NSAlert *alert = [[NSAlert alloc] init];
+//        [alert setMessageText:question];
+//        [alert setInformativeText:info];
+//        [alert addButtonWithTitle:quitButton];
+//        [alert addButtonWithTitle:cancelButton];
+//
+//        NSInteger answer = [alert runModal];
+//
+//        if (answer == NSAlertSecondButtonReturn) {
+//            return NSTerminateCancel;
+//        }
+//    }
+//
+//    return NSTerminateNow;
+//}
 
 @end

@@ -161,6 +161,7 @@
 
 - (void)handleQuery {
     [self.recordingDatas removeAllObjects];
+    [self.deletedDatas removeAllObjects];
     NSDate *startDate = self.startDatePicker.dateValue;
     NSDate *endDate = self.endDatePicker.dateValue;
     if ([startDate compare:endDate] == NSOrderedAscending) {

@@ -123,6 +123,7 @@
     [self.bundleIDs removeAllObjects];
     [self.timeRecordings removeAllObjects];
     _isWritingBack = NO;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"ATWriteBackFinished" object:nil];
     dispatch_resume(self.refreshTimer);
 }
 
