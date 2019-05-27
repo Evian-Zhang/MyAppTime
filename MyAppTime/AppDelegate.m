@@ -23,13 +23,13 @@
     self.dataModel = [[ATDataModel alloc] init];
     self.dataModel.persistentContainer = self.persistentContainer;
     
+    _defaultManager = [NSFileManager defaultManager];
+    
     [self handleUserDefaults];
     
     [self.dataModel addTimer];
     
     [NSProcessInfo.processInfo disableSuddenTermination];
-    
-    _defaultManager = [NSFileManager defaultManager];
     
     self.preferencesItem.target = self;
     self.preferencesItem.action = @selector(showPreferencesWindow);
