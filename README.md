@@ -46,6 +46,8 @@
 
 ## 使用截图
 
+![总览](Readme_assets/total.png)
+
 ![状态栏图标](Readme_assets/popover.png)
 
 ![各应用使用时长总览](Readme_assets/mainWindow.png)
