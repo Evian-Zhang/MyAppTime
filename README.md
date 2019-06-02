@@ -1,5 +1,5 @@
 #  MyAppTime
-这是一款 macOS 上类似于 iOS 中“屏幕使用时间”的免费软件。下载地址: [MyAppTime.dmg](https://github.com/Evian-Zhang/MyAppTime/releases/download/v1/MyAppTime.dmg). 本应用使用 Objective-C, 利用 cocoa 框架写成，源码可在本仓库中查看。
+这是一款 macOS 上类似于 iOS 中“屏幕使用时间”的免费软件。下载地址: [MyAppTime.dmg](https://github.com/Evian-Zhang/MyAppTime/releases/download/v1.1/MyAppTime.dmg). 本应用使用 Objective-C, 利用 cocoa 框架写成，源码可在本仓库中查看。
 
 ## 介绍
 
