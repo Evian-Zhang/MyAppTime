@@ -6,7 +6,7 @@
 	<string>com.zhang.evian.MyAppTimeLauncher</string>
 	<key>ProgramArguments</key>
 	<array>
-		<string>/Users/evian/Documents/MyAppTime/Build/Products/Debug/MyAppTime.app/Contents/MacOS/MyAppTime</string>
+		<string>/Applications/MyAppTime.app/Contents/MacOS/MyAppTime</string>
 	</array>
 	<key>RunAtLoad</key>
 	<true/>
